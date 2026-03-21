@@ -312,6 +312,33 @@ body {
 .cta-btn:active { transform: scale(0.98); }
 .cta-btn .gold { color: var(--gold); }
 
+/* ============================================
+   STEP BACK BUTTON
+   ============================================ */
+.step-back {
+  padding: 12px 0 0;
+}
+.step-back .back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--gray-400);
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 6px 2px;
+  transition: color 0.2s;
+}
+.step-back .back-btn:hover { color: var(--navy); }
+.step-back .back-btn svg {
+  width: 18px; height: 18px;
+  stroke: currentColor; stroke-width: 2;
+  fill: none; stroke-linecap: round; stroke-linejoin: round;
+}
+
 .cta-btn.secondary {
   background: white;
   color: var(--navy);
