@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pismo w sprawie buspasa — Oliva Koncept</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script src="https://unpkg.com/@pdf-lib/fontkit@1.1.1/dist/fontkit.umd.min.js"></script>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <span class="badge">Oliva Koncept &middot; ul. Spacerowa</span>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar">
+  <div class="progress-dot current"></div>
+  <div class="progress-dot"></div>
+  <div class="progress-dot"></div>
+  <div class="progress-dot"></div>
+  <div class="progress-dot"></div>
+</div>
+
+<div class="container">
+
+<!-- ====================================================================
+     STEP 1 — LANDING
+     ==================================================================== -->
+<div id="step-1" class="step-section active">
+
+  <div class="hero-block">
+    <h1>Rozbudowa ul. Spacerowej</h1>
+    <p>Planowana budowa buspasa i trasy rowerowej bezpośrednio wpływa na osiedle Oliva Koncept.
+    <strong>Karta Informacyjna Przedsięwzięcia pomija nasze osiedle</strong> w analizach i nie przewiduje
+    żadnych zabezpieczeń dla mieszkańców.</p>
+  </div>
+
+  <!-- FACTS -->
+  <div class="facts-strip">
+    <div class="fact-card">
+      <div class="num">&darr;</div>
+      <div class="desc"><strong>spadek wartości</strong><br>nieruchomości</div>
+    </div>
+    <div class="fact-card">
+      <div class="num">560</div>
+      <div class="desc">drzew do <strong>wycinki</strong></div>
+    </div>
+    <div class="fact-card">
+      <div class="num">74 <span class="unit">dB</span></div>
+      <div class="desc">hałas <strong>przy osiedlu</strong><br>(norma: 61 dB)</div>
+    </div>
+    <div class="fact-card mobile-hidden">
+      <div class="num">0</div>
+      <div class="desc">konsultacji<br>przez <strong>4 lata</strong></div>
+    </div>
+    <div class="fact-card mobile-hidden">
+      <div class="num">18 <span class="unit">mies.</span></div>
+      <div class="desc"><strong>budowa</strong> pod oknami</div>
+    </div>
+  </div>
+  <div class="facts-strip-2">
+    <div class="fact-card">
+      <div class="num">0</div>
+      <div class="desc">konsultacji z <strong>mieszkańcami</strong> przez 4 lata</div>
+    </div>
+    <div class="fact-card">
+      <div class="num">18 <span class="unit">mies.</span></div>
+      <div class="desc"><strong>budowa</strong> pod oknami — hałas, drgania</div>
+    </div>
+  </div>
+
+  <!-- GAINS -->
+  <div class="section-header">
+    <span class="ico"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+    <h2>Co możesz zyskać?</h2>
+  </div>
+
+  <div class="gains-grid">
+    <div class="gain-card">
+      <div class="card-head">
+        <div class="card-icon"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg></div>
+        <h3>Ochrona przed hałasem</h3>
+      </div>
+      <p>Ekrany akustyczne po stronie osiedla, okna dźwiękoszczelne, stała stacja monitoringu hałasu online.</p>
+      <div class="highlight">Normy hałasu dotrzymane 24/7</div>
+    </div>
+
+    <div class="gain-card">
+      <div class="card-head">
+        <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <h3>Bezpieczeństwo budynków</h3>
+      </div>
+      <p>Przegląd stanu budynków przed budową, fundusz gwarancyjny min. 10 mln zł, niezależny inspektor.</p>
+      <div class="highlight">Budynki chronione, naprawy zagwarantowane</div>
+    </div>
+
+    <div class="gain-card">
+      <div class="card-head">
+        <div class="card-icon"><svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+        <h3>Ochrona wartości mieszkań</h3>
+      </div>
+      <p>Niezależna wycena przed budową, mechanizm kompensacji spadku wartości, 4 podstawy prawne roszczeń.</p>
+      <div class="highlight">Twoje mieszkanie nie traci na wartości</div>
+    </div>
+
+    <div class="gain-card">
+      <div class="card-head">
+        <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M17 14l3-4h-4l3-4h-4l-3-4-3 4H5l3 4H4l3 4H3l4 4h4v4h2v-4h4l4-4z"/></svg></div>
+        <h3>Zieleń wokół osiedla</h3>
+      </div>
+      <p>1680 nowych drzew (3:1), pas zieleni izolacyjnej 15 m, kompensacja siedlisk Natura 2000.</p>
+      <div class="highlight">Więcej zieleni niż przed inwestycją</div>
+    </div>
+
+    <div class="gain-card">
+      <div class="card-head">
+        <div class="card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 7 11.5 7.35 11.76a1 1 0 0 0 1.3 0C13 21.5 20 15.4 20 10a8 8 0 0 0-8-8z"/></svg></div>
+        <h3>Dostępność w czasie budowy</h3>
+      </div>
+      <p>Plan organizacji ruchu, dojazd ratunkowy do 15 min, tymczasowy przystanek w odległości 300 m.</p>
+      <div class="highlight">Codzienne życie bez paraliżu</div>
+    </div>
+
+    <div class="gain-card">
+      <div class="card-head">
+        <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <h3>Głos mieszkańców</h3>
+      </div>
+      <p>Konsultacje społeczne, stałe biuro informacyjne, dane monitoringowe online co kwartał.</p>
+      <div class="highlight">Pełna transparentność i wpływ na decyzje</div>
+    </div>
+  </div>
+
+  <div class="hint-box">
+    <strong>Pismo jest już w pełni przygotowane</strong> — zawiera 77 uwag merytorycznych i 88 wniosków formalnych.
+    Wystarczy wpisać swoje dane, podpisać i złożyć. Zajmie to 5 minut.
+  </div>
+
+  <button class="cta-btn" onclick="showStep(2)">
+    Wypełnij pismo <span class="gold">&rarr;</span>
+  </button>
+</div>
+
+<!-- ====================================================================
+     STEP 2 — FORMULARZ
+     ==================================================================== -->
+<div id="step-2" class="step-section">
+  <div class="form-section">
+    <div class="form-header">
+      <h2>Wypełnij swoje dane</h2>
+      <p>Dane zostaną wpisane na pierwszą stronę pisma. Nie opuszczają Twojej przeglądarki.</p>
+    </div>
+
+    <div class="form-group">
+      <label for="field-name">Imię i nazwisko</label>
+      <input type="text" id="field-name" placeholder="Jan Kowalski" autocomplete="name">
+      <div class="hint">Jak w akcie notarialnym / księdze wieczystej</div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group form-group-grow">
+        <label for="field-building">Budynek</label>
+        <input type="text" id="field-building" placeholder="np. A" maxlength="3" style="text-transform:uppercase">
+      </div>
+      <div class="form-group form-group-grow">
+        <label for="field-apt">Nr mieszkania</label>
+        <input type="text" id="field-apt" placeholder="np. 12" inputmode="numeric">
+      </div>
+    </div>
+    <div class="address-preview" id="address-preview">
+      ul. Karwieńska 1, 80-328 Gdańsk
+    </div>
+
+    <div class="form-group">
+      <label for="field-kw">Nr księgi wieczystej (KW)</label>
+      <input type="text" id="field-kw" placeholder="GD1G/00123456/7">
+      <div class="hint">Znajdziesz go w akcie notarialnym lub na <a href="https://ekw.ms.gov.pl" target="_blank" rel="noopener">ekw.ms.gov.pl</a></div>
+    </div>
+
+    <div class="form-group">
+      <label for="field-pesel">PESEL <span class="optional">(opcjonalnie)</span></label>
+      <input type="text" id="field-pesel" placeholder="" inputmode="numeric" maxlength="11">
+      <div class="hint">Ułatwia identyfikację, ale można pominąć</div>
+    </div>
+
+    <button class="cta-btn" onclick="generatePDF()">
+      Dalej <span class="gold">&rarr;</span>
+    </button>
+  </div>
+</div>
+
+<!-- ====================================================================
+     STEP 3 — GENERATING
+     ==================================================================== -->
+<div id="step-3" class="step-section">
+  <div class="loading-section">
+    <div class="spinner"></div>
+    <h2>Generuję Twoje pismo...</h2>
+    <p>Trwa wypełnianie 104-stronicowego dokumentu Twoimi danymi.</p>
+  </div>
+</div>
+
+<!-- ====================================================================
+     STEP 4 — METHOD SELECTION
+     ==================================================================== -->
+<div id="step-4" class="step-section">
+  <div class="method-header">
+    <h2>Pismo gotowe!</h2>
+    <p>Wybierz sposób złożenia pisma w urzędzie:</p>
+  </div>
+
+  <div class="method-cards">
+    <!-- A. Urząd -->
+    <div class="method-card recommended" onclick="selectMethod('office')">
+      <div class="rec-tag">Zalecane</div>
+      <div class="card-head">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M8 10h.01"/><path d="M16 10h.01"/><path d="M8 14h.01"/><path d="M16 14h.01"/></svg>
+        </div>
+        <div>
+          <h3>Zanieś do urzędu</h3>
+          <p>Złóż osobiście — najszybszy i najpewniejszy sposób</p>
+        </div>
+      </div>
+      <span class="arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></span>
+    </div>
+
+    <!-- B. Poczta -->
+    <div class="method-card" onclick="selectMethod('mail')">
+      <div class="card-head">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        </div>
+        <div>
+          <h3>Wyślij pocztą</h3>
+          <p>Listem poleconym za potwierdzeniem odbioru</p>
+        </div>
+      </div>
+      <span class="arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></span>
+    </div>
+
+    <!-- C. ePUAP -->
+    <div class="method-card" onclick="selectMethod('epuap')">
+      <div class="card-head">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="3" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
+        </div>
+        <div>
+          <h3>Wyślij przez ePUAP</h3>
+          <p>Elektronicznie z podpisem Profilem Zaufanym</p>
+        </div>
+      </div>
+      <span class="arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></span>
+    </div>
+  </div>
+</div>
+
+<!-- ====================================================================
+     STEP 5 — INSTRUCTIONS PER METHOD
+     ==================================================================== -->
+<div id="step-5" class="step-section">
+
+  <!-- ---- A. URZĄD ---- -->
+  <div id="method-office" class="method-instructions" style="display:none">
+    <div class="instruction-header">
+      <button class="back-btn" onclick="showStep(4)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <h2>Zanieś do urzędu</h2>
+    </div>
+
+    <div class="instruction-steps">
+      <div class="instr-step">
+        <div class="instr-num">1</div>
+        <div class="text">
+          <h4>Pobierz i wydrukuj pismo</h4>
+          <p>Wydrukuj <strong>2 egzemplarze</strong> — jeden złożysz w okienku, drugi zachowasz jako dowód.</p>
+        </div>
+      </div>
+      <div class="instr-step">
+        <div class="instr-num">2</div>
+        <div class="text">
+          <h4>Podpisz odręcznie</h4>
+          <p>Złóż <strong>czytelny podpis</strong> na obu egzemplarzach na ostatniej stronie, w wyznaczonym miejscu.</p>
+        </div>
+      </div>
+      <div class="instr-step">
+        <div class="instr-num">3</div>
+        <div class="text">
+          <h4>Złóż w Sali Obsługi Mieszkańców</h4>
+          <p>Jeden egzemplarz oddaj w okienku. Na drugim poproś o <strong>pieczątkę z datą wpływu</strong> — to Twój dowód złożenia.</p>
+          <div class="addr">Urząd Miejski w Gdańsku, ul. Nowe Ogrody 8/12</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hint-box">
+      <strong>Termin:</strong> najpóźniej do <strong>5 kwietnia 2025 r.</strong> Zalecamy złożenie jak najszybciej.
+    </div>
+
+    <button class="cta-btn" onclick="downloadPDF()">
+      Pobierz pismo (PDF)
+    </button>
+  </div>
+
+  <!-- ---- B. POCZTA ---- -->
+  <div id="method-mail" class="method-instructions" style="display:none">
+    <div class="instruction-header">
+      <button class="back-btn" onclick="showStep(4)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <h2>Wyślij pocztą</h2>
+    </div>
+
+    <div class="instruction-steps">
+      <div class="instr-step">
+        <div class="instr-num">1</div>
+        <div class="text">
+          <h4>Pobierz i wydrukuj pismo</h4>
+          <p>Wydrukuj <strong>1 egzemplarz</strong> pisma.</p>
+        </div>
+      </div>
+      <div class="instr-step">
+        <div class="instr-num">2</div>
+        <div class="text">
+          <h4>Podpisz odręcznie</h4>
+          <p>Złóż <strong>czytelny podpis</strong> na ostatniej stronie, w wyznaczonym miejscu.</p>
+        </div>
+      </div>
+      <div class="instr-step">
+        <div class="instr-num">3</div>
+        <div class="text">
+          <h4>Wyślij listem poleconym (ZPO)</h4>
+          <p>Na poczcie nadaj list <strong>za potwierdzeniem odbioru</strong>. Zachowaj potwierdzenie nadania — to Twój dowód.</p>
+          <div class="addr">Prezydent Miasta Gdańska, ul. Nowe Ogrody 8/12, 80-803 Gdańsk</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hint-box">
+      <strong>Termin:</strong> liczy się <strong>data stempla pocztowego</strong>, nie dotarcia. Wyślij najpóźniej <strong>5 kwietnia 2025 r.</strong>
+    </div>
+
+    <button class="cta-btn" onclick="downloadPDF()">
+      Pobierz pismo (PDF)
+    </button>
+  </div>
+
+  <!-- ---- C. ePUAP ---- -->
+  <div id="method-epuap" class="method-instructions" style="display:none">
+    <div class="instruction-header">
+      <button class="back-btn" onclick="showStep(4)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <h2>Wyślij przez ePUAP</h2>
+    </div>
+
+    <div class="instruction-steps">
+      <div class="instr-step">
+        <div class="instr-num">1</div>
+        <div class="text">
+          <h4>Pobierz pismo</h4>
+          <p>Zapisz plik PDF na swoim urządzeniu.</p>
+        </div>
+      </div>
+      <div class="instr-step">
+        <div class="instr-num">2</div>
+        <div class="text">
+          <h4>Otwórz ePUAP</h4>
+          <p>Zaloguj się na <strong>obywatel.gov.pl</strong> i wybierz „Wyślij pismo ogólne".</p>
+        </div>
+      </div>
+      <div class="instr-step">
+        <div class="instr-num">3</div>
+        <div class="text">
+          <h4>Wybierz adresata</h4>
+          <p>Wpisz: <strong>Urząd Miejski w Gdańsku</strong> i wybierz go z listy.</p>
+        </div>
+      </div>
+      <div class="instr-step">
+        <div class="instr-num">4</div>
+        <div class="text">
+          <h4>Załącz pismo i wyślij</h4>
+          <p>Dodaj pobrany plik PDF jako załącznik. Podpisz <strong>Profilem Zaufanym</strong> i wyślij.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="hint-box">
+      <strong>Termin:</strong> najpóźniej do <strong>5 kwietnia 2025 r.</strong> Potwierdzenie dostarczenia pojawi się na Twoim koncie ePUAP.
+    </div>
+
+    <button class="cta-btn" onclick="downloadAndOpenEpuap()">
+      Pobierz pismo i przejdź do ePUAP <span class="gold">&rarr;</span>
+    </button>
+  </div>
+
+</div>
+
+</div><!-- /container -->
+
+<!-- FOOTER -->
+<div class="site-footer">
+  <p>Niniejsza strona ma charakter informacyjny i nie stanowi porady prawnej.
+  Twoje dane nie są nigdzie wysyłane — cały dokument generowany jest w Twojej przeglądarce.
+  Każdy właściciel lub współwłaściciel lokalu składa osobne pismo.</p>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
