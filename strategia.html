@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="pl" style="scroll-behavior:smooth">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -140,6 +140,13 @@ body {
   font-weight: 600;
 }
 .toc ol li:last-child { border-bottom: none; }
+.toc ol li a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.toc ol li a:hover { color: var(--gold-600); }
+.section[id] { scroll-margin-top: 20px; }
 .toc ol li::before {
   content: counter(toc) ".";
   color: var(--gold-600);
@@ -432,13 +439,13 @@ body {
   <div class="container">
     <h2>Spis treści</h2>
     <ol>
-      <li>Kontekst — o co chodzi?</li>
-      <li>Dlaczego walczymy — kluczowe fakty</li>
-      <li>Nasze najsilniejsze argumenty</li>
-      <li>Proces prawny — gdzie jesteśmy?</li>
-      <li>Mapa drogowa — co nas czeka krok po kroku</li>
-      <li>Możliwe scenariusze</li>
-      <li>Plan działań — co musimy zrobić</li>
+      <li><a href="#kontekst">Kontekst — o co chodzi?</a></li>
+      <li><a href="#fakty">Dlaczego walczymy — kluczowe fakty</a></li>
+      <li><a href="#argumenty">Nasze najsilniejsze argumenty</a></li>
+      <li><a href="#proces">Proces prawny — gdzie jesteśmy?</a></li>
+      <li><a href="#mapa">Mapa drogowa — co nas czeka krok po kroku</a></li>
+      <li><a href="#scenariusze">Możliwe scenariusze</a></li>
+      <li><a href="#plan">Plan działań — co musimy zrobić</a></li>
     </ol>
   </div>
 </div>
@@ -446,7 +453,7 @@ body {
 <div class="container">
 
 <!-- ====================== 1. KONTEKST ====================== -->
-<div class="section">
+<div class="section" id="kontekst">
   <div class="section-num">Część 1</div>
   <h2>O co chodzi?</h2>
 
@@ -472,7 +479,7 @@ body {
 </div>
 
 <!-- ====================== 2. KLUCZOWE FAKTY ====================== -->
-<div class="section page-break">
+<div class="section page-break" id="fakty">
   <div class="section-num">Część 2</div>
   <h2>Dlaczego walczymy — kluczowe fakty</h2>
 
@@ -527,7 +534,7 @@ body {
 </div>
 
 <!-- ====================== 3. ARGUMENTY ====================== -->
-<div class="section page-break">
+<div class="section page-break" id="argumenty">
   <div class="section-num">Część 3</div>
   <h2>Nasze najsilniejsze argumenty</h2>
 
@@ -626,7 +633,7 @@ body {
 </div>
 
 <!-- ====================== 4. GDZIE JESTEŚMY ====================== -->
-<div class="section page-break">
+<div class="section page-break" id="proces">
   <div class="section-num">Część 4</div>
   <h2>Proces prawny — gdzie jesteśmy?</h2>
 
@@ -656,7 +663,7 @@ body {
 </div>
 
 <!-- ====================== 5. MAPA DROGOWA ====================== -->
-<div class="section page-break">
+<div class="section page-break" id="mapa">
   <div class="section-num">Część 5</div>
   <h2>Mapa drogowa — co nas czeka</h2>
 
@@ -745,7 +752,7 @@ body {
 </div>
 
 <!-- ====================== 6. SCENARIUSZE ====================== -->
-<div class="section page-break">
+<div class="section page-break" id="scenariusze">
   <div class="section-num">Część 6</div>
   <h2>Możliwe scenariusze</h2>
 
@@ -796,7 +803,7 @@ body {
 </div>
 
 <!-- ====================== 7. PLAN DZIAŁAŃ ====================== -->
-<div class="section page-break">
+<div class="section page-break" id="plan">
   <div class="section-num">Część 7</div>
   <h2>Plan działań — co musimy zrobić</h2>
 
