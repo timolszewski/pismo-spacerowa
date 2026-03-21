@@ -128,6 +128,22 @@ body {
   line-height: 1.5;
 }
 .hero-block strong { color: var(--gold); }
+.hero-link {
+  display: inline-block;
+  margin-top: 14px;
+  color: var(--gold);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1.5px solid rgba(251, 191, 36, 0.4);
+  padding: 8px 18px;
+  border-radius: 20px;
+  transition: background 0.2s, border-color 0.2s;
+}
+.hero-link:hover {
+  background: rgba(251, 191, 36, 0.15);
+  border-color: var(--gold);
+}
 
 /* ============================================
    FACTS STRIP
