@@ -17,7 +17,7 @@ let generatedPdfBytes = null;
 let currentStep = 1;
 
 // ============================================
-// QUIZ DATA — 19 questions, 6 categories
+// QUIZ DATA — 20 questions, 7 categories
 // ============================================
 const QUIZ_QUESTIONS = [
   // --- Ochrona przed hałasem ---
@@ -120,6 +120,13 @@ const QUIZ_QUESTIONS = [
     detailedDesc: '<p>Budowa potrwa prawie 2 lata, a procedura środowiskowa jeszcze dłużej. W tym czasie mieszkańcy potrzebują <strong>stałego punktu kontaktu</strong>, gdzie mogą:</p><p>\u2022 Zobaczyć aktualną dokumentację i plany<br>\u2022 Sprawdzić harmonogram prac (kiedy będą najgłośniejsze roboty, kiedy zamknięcia dróg)<br>\u2022 Zgłosić problemy (nadmierny hałas, uszkodzenia, zanieczyszczenia)<br>\u2022 Uzyskać dane monitoringowe (poziom hałasu, drgań, wód gruntowych)<br>\u2022 Porozmawiać z przedstawicielem inwestora</p><p>Biuro powinno funkcjonować od dnia wszczęcia postępowania środowiskowego do końca budowy. Może to być punkt stacjonarny lub dyżur w ustalonych godzinach \u2014 ważne, żeby był regularny i dostępny.</p><p>To standard transparentności w dużych inwestycjach infrastrukturalnych. Daje mieszkańcom poczucie, że ich głos jest słyszany i że mają wpływ na przebieg procesu.</p><p><strong>Wniosek formalny:</strong> Powołanie stałego biura informacyjnego dla mieszkańców strefy oddziaływania, ze szczególnym uwzględnieniem osiedla Oliva Koncept.</p>',
     codes: ['PR-8'] },
 
+  // --- Dostępność komunikacyjna ---
+  { id: 'Q19', category: 'Życie podczas budowy',
+    title: 'Dodatkowy przystanek autobusowy przy osiedlu',
+    desc: 'Obecnie najbliższy przystanek to Dom Zarazy (~800 m). Nowy przystanek na wysokości Spacerowej 15 poprawi skomunikowanie.',
+    detailedDesc: '<p>Osiedle Oliva Koncept jest <strong>słabo skomunikowane z siecią transportu publicznego</strong>. Mieszkańcy chcący dojechać z kierunku Oliwy nie mają w bezpośrednim sąsiedztwie przystanku autobusowego — najbliższy to Dom Zarazy, oddalony o ok. 800 metrów.</p><p>Obecna sytuacja komunikacyjna:</p><p>• <strong>Linie 171 i 179</strong> — nie zatrzymują się przy ul. Karwieńskiej<br>• <strong>Linia 169</strong> — jedynie dojeżdża do zoo i skręca, nie obsługuje odcinka przy osiedlu<br>• <strong>Autobus sezonowy</strong> z pętli oliwskiej do zoo — kursuje tylko latem, z niską częstotliwością</p><p>800 metrów do przystanku to istotna bariera — szczególnie dla <strong>osób starszych, z niepełnosprawnościami i rodzin z dziećmi</strong>. Zimą, w deszczu i po zmroku trasa ta jest dodatkowo uciążliwa i niebezpieczna.</p><p>Skoro inwestycja obejmuje przebudowę infrastruktury drogowej na tym odcinku ul. Spacerowej, <strong>utworzenie dodatkowego przystanku na żądanie</strong> na wysokości budynku Spacerowa 15 jest minimalnym i proporcjonalnym środkiem poprawiającym dostępność komunikacyjną. To niewielki koszt w skali całej inwestycji, a znacząca poprawa jakości życia mieszkańców.</p><p><strong>Wniosek formalny:</strong> Utworzenie dodatkowego przystanku autobusowego (na żądanie) w kierunku Osowej, na wysokości ul. Spacerowej 15.</p>',
+    codes: ['DR-7'] },
+
   // --- Bezpieczeństwo na drodze ---
   { id: 'Q18', category: 'Bezpieczeństwo na drodze',
     title: 'Analiza bezpieczeństwa drogowego (BRD)',
@@ -149,8 +156,8 @@ const GAIN_DETAILS = {
     body: '<p>Inwestycja zakłada wycinkę <strong>560 drzew</strong> i zniszczenie <strong>3,7 ha siedlisk Natura 2000</strong> (grąd, buczyna, łęg). To poważna ingerencja w ekosystem, który jest integralną częścią Trójmiejskiego Parku Krajobrazowego.</p><p>Pismo zawiera wnioski o:</p><p>\u2022 <strong>Nasadzenia zastępcze 3:1</strong> \u2014 minimum 1680 nowych drzew gatunków rodzimych<br>\u2022 <strong>Kompensacja siedlisk Natura 2000</strong> \u2014 odtworzenie zniszczonych siedlisk w stosunku co najmniej 1:1<br>\u2022 <strong>Pas zieleni izolacyjnej 15 m</strong> \u2014 wielopiętrowy bufor między drogą a osiedlem<br>\u2022 <strong>Pełna inwentaryzacja dendrologiczna</strong> \u2014 560 drzew z gatunkiem, obwodem i stanem<br>\u2022 <strong>Ochrona pomnika przyrody</strong> \u2014 dąb szypułkowy 40 m od osi inwestycji<br>\u2022 <strong>Inwentaryzacja sezonowa</strong> \u2014 wiosenna (geofity) i jesienna (storczyki)<br>\u2022 <strong>Monitoring 10-letni</strong> \u2014 czy nasadzenia i kompensacje faktycznie się przyjęły</p><p>Łącznie 15 wniosków formalnych w kategorii przyrodniczej.</p>'
   },
   access: {
-    title: 'Dostępność w czasie budowy',
-    body: '<p>Budowa potrwa <strong>18-24 miesiące</strong>. W tym czasie ul. Spacerowa \u2014 jedyna wygodna droga dojazdowa do osiedla \u2014 będzie częściowo lub całkowicie zamknięta. To oznacza codzienne utrudnienia dla kilkuset rodzin.</p><p>Pismo zawiera wnioski o:</p><p>\u2022 <strong>Plan organizacji ruchu</strong> \u2014 szczegółowy harmonogram z fazami budowy, mapą objazdów i planem komunikacji zastępczej<br>\u2022 <strong>Dojazd ratunkowy \u226415 min</strong> \u2014 gwarancja, że karetka i straż dotrą na czas<br>\u2022 <strong>Przystanek tymczasowy \u2264300 m</strong> \u2014 ciągłość komunikacji miejskiej<br>\u2022 <strong>Bezpieczne trasy szkolne</strong> \u2014 wyznaczone i oznakowane dojścia do placówek oświatowych<br>\u2022 <strong>Analiza wpływu na zoo i TPK</strong> \u2014 dostępność atrakcji turystycznych<br>\u2022 <strong>Plan dla osób starszych i niepełnosprawnych</strong> \u2014 alternatywne środki mobilności</p><p>Łącznie 6 wniosków formalnych dotyczących organizacji ruchu i dostępności w fazie budowy.</p>'
+    title: 'Dostępność i komunikacja',
+    body: '<p>Budowa potrwa <strong>18-24 miesiące</strong>. W tym czasie ul. Spacerowa \u2014 jedyna wygodna droga dojazdowa do osiedla \u2014 będzie częściowo lub całkowicie zamknięta. A już teraz osiedle jest słabo skomunikowane \u2014 najbliższy przystanek (Dom Zarazy) jest oddalony o ok. 800 m.</p><p>Pismo zawiera wnioski o:</p><p>\u2022 <strong>Dodatkowy przystanek autobusowy</strong> \u2014 na żądanie, przy Spacerowej 15, w kierunku Osowej (linie 171, 179 nie zatrzymują się przy Karwieńskiej)<br>\u2022 <strong>Plan organizacji ruchu</strong> \u2014 szczegółowy harmonogram z fazami budowy, mapą objazdów i planem komunikacji zastępczej<br>\u2022 <strong>Dojazd ratunkowy \u226415 min</strong> \u2014 gwarancja, że karetka i straż dotrą na czas<br>\u2022 <strong>Przystanek tymczasowy \u2264300 m</strong> \u2014 ciągłość komunikacji na czas budowy<br>\u2022 <strong>Bezpieczne trasy szkolne</strong> \u2014 wyznaczone i oznakowane dojścia do placówek oświatowych<br>\u2022 <strong>Plan dla osób starszych i niepełnosprawnych</strong> \u2014 alternatywne środki mobilności</p><p>Łącznie 7 wniosków formalnych dotyczących organizacji ruchu, dostępności i komunikacji publicznej.</p>'
   },
   voice: {
     title: 'Głos mieszkańców',
@@ -375,22 +382,7 @@ async function generatePDF() {
   });
 
   try {
-    const allSelected = Object.values(quizAnswers).every(v => v);
-
-    if (allSelected) {
-      const templateBytes = await fetch('szablon.pdf').then(r => r.arrayBuffer());
-      const pdfDoc = await PDFLib.PDFDocument.load(templateBytes);
-      pdfDoc.registerFontkit(fontkit);
-
-      const fontBytes = await fetch('LiberationSerif-Regular.ttf').then(r => r.arrayBuffer());
-      const font = await pdfDoc.embedFont(fontBytes);
-
-      const page = pdfDoc.getPages()[0];
-      fillPersonalData(page, font, { dateStr, name, address, apt, kw, pesel });
-
-      generatedPdfBytes = await pdfDoc.save();
-
-    } else {
+    {
       const templateBytes = await fetch('szablon.pdf').then(r => r.arrayBuffer());
       const srcDoc = await PDFLib.PDFDocument.load(templateBytes);
 

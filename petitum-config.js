@@ -217,6 +217,10 @@ const PETITUM_CONFIG = {
       "text": "Zobowiązanie inwestora do opracowania dedykowanego planu utrzymania dostępności komunikacyjnej osiedla Oliva Koncept na czas 18–24-miesięcznej budowy, gwarantującego czas dojazdu służb ratunkowych nieprzekraczający 15 minut, ciągłość komunikacji miejskiej (tymczasowy przystanek w odległości ≤ 300 m) oraz bezpieczne trasy dojścia do placówek oświatowych."
     },
     {
+      "code": "DR-7",
+      "text": "Zobowiązanie inwestora do uwzględnienia w projekcie budowy buspasa utworzenia dodatkowego przystanku autobusowego na żądanie w kierunku Osowej, na wysokości budynku przy ul. Spacerowej 15 — w celu poprawy skomunikowania osiedla Oliva Koncept z siecią transportu publicznego. Obecnie mieszkańcy osiedla nie mają w bezpośrednim sąsiedztwie przystanku umożliwiającego dojazd z kierunku Oliwy — linie 171 i 179 nie zatrzymują się przy ul. Karwieńskiej, linia 169 jedynie dojeżdża do zoo i skręca, a sezonowy autobus z pętli oliwskiej kursuje jedynie latem i z niewystarczającą częstotliwością. Najbliższym przystankiem pozostaje Dom Zarazy, co wymaga przejścia ok. 800 m — istotnej bariery szczególnie dla osób starszych, z niepełnosprawnościami i rodzin z dziećmi. Skoro inwestycja obejmuje przebudowę infrastruktury drogowej na tym odcinku, utworzenie dodatkowego przystanku stanowi minimalny i proporcjonalny środek kompensacyjny poprawiający dostępność komunikacyjną mieszkańców strefy oddziaływania."
+    },
+    {
       "code": "BU-1",
       "text": "Zobowiązanie inwestora do wykonania pełnej analizy wpływu drgań z robót budowlanych na budynki mieszkalne w strefie co najmniej 100 metrów od osi trasy, zgodnie z normą PN-B-02170:2016, obejmującej prognozę PPV, porównanie ze skalami SWD i ocenę ryzyka uszkodzeń."
     },
