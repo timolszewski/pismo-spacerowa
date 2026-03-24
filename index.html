@@ -15,9 +15,10 @@
   <span class="badge">Oliva Koncept &middot; ul. Spacerowa</span>
 </div>
 
-<!-- PROGRESS BAR -->
+<!-- PROGRESS BAR (6 steps) -->
 <div class="progress-bar">
   <div class="progress-dot current"></div>
+  <div class="progress-dot"></div>
   <div class="progress-dot"></div>
   <div class="progress-dot"></div>
   <div class="progress-dot"></div>
@@ -136,8 +137,8 @@
   </div>
 
   <div class="hint-box">
-    <strong>Pismo jest już w pełni przygotowane</strong> — zawiera 77 uwag merytorycznych i 88 wniosków formalnych.
-    Wystarczy wpisać swoje dane, podpisać i złożyć. Zajmie to 5 minut.
+    <strong>Pismo jest już w pełni przygotowane</strong> — zawiera 77 uwag merytorycznych i 85 wniosków formalnych.
+    W następnym kroku możesz wybrać, które postulaty chcesz włączyć do swojego pisma.
   </div>
 
   <button class="cta-btn" onclick="showStep(2)">
@@ -146,12 +147,41 @@
 </div>
 
 <!-- ====================================================================
-     STEP 2 — FORMULARZ
+     STEP 2 — QUIZ (wybór postulatów)
      ==================================================================== -->
 <div id="step-2" class="step-section">
+  <div class="step-back">
+    <button class="back-btn" onclick="showStep(1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Wróć</button>
+  </div>
+
+  <div class="quiz-header">
+    <h2>Dostosuj swoje pismo</h2>
+    <p>Wybierz, które postulaty chcesz włączyć. Podstawowe wnioski (metodologiczne, przyrodnicze, prawne) są zawsze włączone i wzmacniają siłę pisma.</p>
+  </div>
+
+  <div class="quiz-actions">
+    <button class="quiz-action-btn" onclick="quizSelectAll(true)">Zaznacz wszystkie</button>
+    <button class="quiz-action-btn" onclick="quizSelectAll(false)">Odznacz wszystkie</button>
+  </div>
+
+  <div id="quiz-container"></div>
+
+  <div class="quiz-summary">
+    <span id="quiz-count">19 z 19</span> postulatów wybranych
+  </div>
+
+  <button class="cta-btn" onclick="showStep(3)">
+    Dalej — wypełnij dane <span class="gold">&rarr;</span>
+  </button>
+</div>
+
+<!-- ====================================================================
+     STEP 3 — FORMULARZ
+     ==================================================================== -->
+<div id="step-3" class="step-section">
   <div class="form-section">
     <div class="step-back">
-      <button class="back-btn" onclick="showStep(1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Wróć</button>
+      <button class="back-btn" onclick="showStep(2)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Wróć</button>
     </div>
     <div class="form-header">
       <h2>Wypełnij swoje dane</h2>
@@ -197,22 +227,22 @@
 </div>
 
 <!-- ====================================================================
-     STEP 3 — GENERATING
+     STEP 4 — GENERATING
      ==================================================================== -->
-<div id="step-3" class="step-section">
+<div id="step-4" class="step-section">
   <div class="loading-section">
     <div class="spinner"></div>
     <h2>Generuję Twoje pismo...</h2>
-    <p>Trwa wypełnianie 104-stronicowego dokumentu Twoimi danymi.</p>
+    <p id="loading-msg">Trwa składanie dokumentu Twoimi danymi.</p>
   </div>
 </div>
 
 <!-- ====================================================================
-     STEP 4 — METHOD SELECTION
+     STEP 5 — METHOD SELECTION
      ==================================================================== -->
-<div id="step-4" class="step-section">
+<div id="step-5" class="step-section">
   <div class="step-back">
-    <button class="back-btn" onclick="showStep(2)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Wróć do formularza</button>
+    <button class="back-btn" onclick="showStep(3)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Wróć do formularza</button>
   </div>
   <div class="method-header">
     <h2>Pismo gotowe!</h2>
@@ -266,14 +296,14 @@
 </div>
 
 <!-- ====================================================================
-     STEP 5 — INSTRUCTIONS PER METHOD
+     STEP 6 — INSTRUCTIONS PER METHOD
      ==================================================================== -->
-<div id="step-5" class="step-section">
+<div id="step-6" class="step-section">
 
   <!-- ---- A. URZĄD ---- -->
   <div id="method-office" class="method-instructions" style="display:none">
     <div class="instruction-header">
-      <button class="back-btn" onclick="showStep(4)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <button class="back-btn" onclick="showStep(5)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
       <h2>Zanieś do urzędu</h2>
     </div>
 
@@ -314,7 +344,7 @@
   <!-- ---- B. POCZTA ---- -->
   <div id="method-mail" class="method-instructions" style="display:none">
     <div class="instruction-header">
-      <button class="back-btn" onclick="showStep(4)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <button class="back-btn" onclick="showStep(5)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
       <h2>Wyślij pocztą</h2>
     </div>
 
@@ -355,7 +385,7 @@
   <!-- ---- C. ePUAP ---- -->
   <div id="method-epuap" class="method-instructions" style="display:none">
     <div class="instruction-header">
-      <button class="back-btn" onclick="showStep(4)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <button class="back-btn" onclick="showStep(5)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
       <h2>Wyślij przez ePUAP</h2>
     </div>
 
@@ -410,6 +440,7 @@
   Każdy właściciel lub współwłaściciel lokalu składa osobne pismo.</p>
 </div>
 
+<script src="petitum-config.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
