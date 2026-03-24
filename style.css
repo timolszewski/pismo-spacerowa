@@ -644,11 +644,11 @@ body {
 .hint-box strong { color: var(--gray-900); }
 
 /* ============================================
-   ORGANIZATIONS BOX
+   ORGANIZATIONS SECTION
    ============================================ */
-.orgs-box {
-  margin: 20px 0 16px;
-  padding: 16px 18px;
+.orgs-section {
+  margin: 24px 0 16px;
+  padding: 20px;
   background: var(--navy-50);
   border: 1.5px solid var(--navy-100);
   border-radius: var(--radius-sm);
@@ -659,27 +659,40 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--gold-600);
+  margin-bottom: 4px;
+}
+.orgs-heading {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--navy);
   margin-bottom: 6px;
 }
 .orgs-desc {
   font-size: 0.78rem;
   color: var(--gray-500);
   line-height: 1.45;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
-.orgs-list {
+.orgs-desc strong {
+  color: var(--gray-600);
+}
+.orgs-cards {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-.org-item {
+.org-card {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  background: white;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--navy-100);
 }
-.org-icon {
-  width: 32px;
-  height: 32px;
+.org-avatar {
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: var(--navy);
   color: var(--gold);
@@ -688,8 +701,8 @@ body {
   justify-content: center;
   flex-shrink: 0;
 }
-.org-item strong {
-  font-size: 0.82rem;
+.org-card strong {
+  font-size: 0.84rem;
   font-weight: 700;
   color: var(--navy);
   display: block;
@@ -699,6 +712,8 @@ body {
   font-size: 0.68rem;
   font-weight: 500;
   color: var(--gray-400);
+  display: block;
+  margin-top: 1px;
 }
 
 /* ============================================
