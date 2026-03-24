@@ -794,3 +794,93 @@ body {
   font-weight: 800;
   color: var(--gold-600);
 }
+
+/* ============================================
+   MORE LINK ("o co chodzi?")
+   ============================================ */
+.more-link {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gold-600);
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.more-link:hover {
+  color: var(--navy);
+  text-decoration: underline;
+}
+
+/* ============================================
+   MODAL
+   ============================================ */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: fadeIn 0.2s ease;
+}
+.modal-overlay.open {
+  display: flex;
+}
+.modal-panel {
+  background: white;
+  border-radius: var(--radius);
+  padding: 28px 24px 24px;
+  max-width: 500px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: var(--navy);
+  color: var(--gold);
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.modal-close:hover {
+  background: var(--navy-dark);
+}
+.modal-panel h3 {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 14px;
+  padding-right: 36px;
+}
+.modal-panel p {
+  font-size: 0.85rem;
+  color: var(--gray-700);
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+.modal-panel p:last-child {
+  margin-bottom: 0;
+}
+.modal-panel strong {
+  color: var(--gray-900);
+}
