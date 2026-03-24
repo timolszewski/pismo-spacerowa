@@ -644,6 +644,64 @@ body {
 .hint-box strong { color: var(--gray-900); }
 
 /* ============================================
+   ORGANIZATIONS BOX
+   ============================================ */
+.orgs-box {
+  margin: 20px 0 16px;
+  padding: 16px 18px;
+  background: var(--navy-50);
+  border: 1.5px solid var(--navy-100);
+  border-radius: var(--radius-sm);
+}
+.orgs-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gold-600);
+  margin-bottom: 6px;
+}
+.orgs-desc {
+  font-size: 0.78rem;
+  color: var(--gray-500);
+  line-height: 1.45;
+  margin-bottom: 12px;
+}
+.orgs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.org-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.org-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--navy);
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.org-item strong {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--navy);
+  display: block;
+  line-height: 1.2;
+}
+.org-tag {
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--gray-400);
+}
+
+/* ============================================
    FOOTER
    ============================================ */
 .site-footer {
