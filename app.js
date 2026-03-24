@@ -620,7 +620,8 @@ function downloadAndOpenEpuap() {
 // INIT
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
-  showStep(1);
+  const startStep = new URLSearchParams(window.location.search).get('step');
+  showStep(startStep === '2' || startStep === '3' ? Number(startStep) : 1);
   renderQuiz();
 
   ['field-building', 'field-apt'].forEach(id => {
