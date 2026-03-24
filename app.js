@@ -207,7 +207,7 @@ function renderQuiz() {
         <div class="quiz-text">
           <strong>${q.title}</strong>
           <p>${q.desc}</p>
-          <a class="more-link" onclick="openQuizModal('${q.id}')">o co chodzi? &rarr;</a>
+          <a href="javascript:void(0)" class="more-link" onclick="openQuizModal('${q.id}')">o co chodzi? &rarr;</a>
         </div>
         <div class="quiz-toggle">
           <button class="toggle-btn active" data-value="yes" onclick="quizToggle('${q.id}',true,this)">TAK</button>

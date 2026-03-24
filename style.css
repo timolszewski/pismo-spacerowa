@@ -799,11 +799,11 @@ body {
    MORE LINK ("o co chodzi?")
    ============================================ */
 .more-link {
-  display: inline-block;
-  margin-top: 6px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--gold-600);
+  display: inline;
+  margin-top: 4px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--gray-400);
   cursor: pointer;
   border: none;
   background: none;
@@ -814,6 +814,14 @@ body {
 .more-link:hover {
   color: var(--navy);
   text-decoration: underline;
+}
+.quiz-item .more-link {
+  display: block;
+  margin-top: 4px;
+}
+.gain-card .more-link {
+  display: block;
+  margin-top: 4px;
 }
 
 /* ============================================
