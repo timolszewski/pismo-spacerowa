@@ -484,11 +484,13 @@ function validateForm() {
   const textFields = ['name', 'building', 'apt', 'kw'];
   const selectFields = ['floor', 'side', 'years', 'household'];
   let valid = true;
+  let firstInvalid = null;
   textFields.forEach(id => {
     const input = document.getElementById('field-' + id);
     if (!input.value.trim()) {
       input.style.borderColor = '#DC2626';
       valid = false;
+      if (!firstInvalid) firstInvalid = input;
     } else {
       input.style.borderColor = '';
     }
@@ -498,10 +500,15 @@ function validateForm() {
     if (!sel.value) {
       sel.style.borderColor = '#DC2626';
       valid = false;
+      if (!firstInvalid) firstInvalid = sel;
     } else {
       sel.style.borderColor = '';
     }
   });
+  if (!valid && firstInvalid) {
+    firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    firstInvalid.focus();
+  }
   return valid;
 }
 
