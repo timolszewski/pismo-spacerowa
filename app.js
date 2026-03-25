@@ -99,12 +99,8 @@ function buildPersonalParagraph(profile) {
 }
 
 // ============================================
-// VERSION CONTROL
+// VERSION — auto-randomized on each generation
 // ============================================
-function nextVersion() {
-  letterVersion++;
-  document.getElementById('version-display').textContent = 'Wersja ' + letterVersion;
-}
 
 // ============================================
 // QUIZ DATA — 20 questions, 7 categories
@@ -485,15 +481,25 @@ function updateAddressPreview() {
 // FORM VALIDATION
 // ============================================
 function validateForm() {
-  const fields = ['name', 'building', 'apt', 'kw'];
+  const textFields = ['name', 'building', 'apt', 'kw'];
+  const selectFields = ['floor', 'side', 'years', 'household'];
   let valid = true;
-  fields.forEach(id => {
+  textFields.forEach(id => {
     const input = document.getElementById('field-' + id);
     if (!input.value.trim()) {
       input.style.borderColor = '#DC2626';
       valid = false;
     } else {
       input.style.borderColor = '';
+    }
+  });
+  selectFields.forEach(id => {
+    const sel = document.getElementById('field-' + id);
+    if (!sel.value) {
+      sel.style.borderColor = '#DC2626';
+      valid = false;
+    } else {
+      sel.style.borderColor = '';
     }
   });
   return valid;
@@ -504,6 +510,9 @@ function validateForm() {
 // ============================================
 async function generatePDF() {
   if (!validateForm()) return;
+
+  // Auto-randomize version for each generation
+  letterVersion = Math.floor(Math.random() * 1000000) + 1;
 
   const name = document.getElementById('field-name').value.trim();
   const building = document.getElementById('field-building').value.trim().toUpperCase();
@@ -516,7 +525,7 @@ async function generatePDF() {
   const selectedItems = getSelectedPetitumItemsWithVariants(rng);
   const loadingMsg = document.getElementById('loading-msg');
   if (loadingMsg) {
-    loadingMsg.innerHTML = 'Trwa składanie dokumentu z <strong>' + selectedItems.length + '</strong> wnioskami formalnymi (wersja ' + letterVersion + ').';
+    loadingMsg.innerHTML = 'Trwa składanie dokumentu z <strong>' + selectedItems.length + '</strong> wnioskami formalnymi.';
   }
 
   showStep(4);
