@@ -59,43 +59,120 @@ function collectProfile() {
   return { floor, side, years, household, concern };
 }
 
-function buildPersonalParagraph(profile) {
-  const parts = [];
+function personalizeItems(items, profile, rng) {
+  // Weave personal profile data INTO petitum items to make each letter genuinely individual.
+  // Instead of a separate "personal justification" page, we append context-appropriate
+  // personal sentences directly to relevant petitum items.
 
-  if (profile.years) {
-    const yearsMap = { '<1': 'niecały rok', '1-3': 'od kilku lat', '3-5': 'od ponad trzech lat', '5+': 'od ponad pięciu lat' };
-    parts.push('Mieszkam w osiedlu Oliva Koncept ' + (yearsMap[profile.years] || ''));
-  }
+  const yearsMap = { '<1': 'niecały rok', '1-3': 'od kilku lat', '3-5': 'od ponad trzech lat', '5+': 'od ponad pięciu lat' };
+  const floorMap = { 'parter': 'na parterze', '1': 'na I piętrze', '2': 'na II piętrze', '3': 'na III piętrze', '4': 'na IV piętrze', '5+': 'na jednym z wyższych pięter' };
+  const sideMap = { 'trasa': 'od strony planowanej trasy', 'podworze': 'od strony podwórza', 'boczna': 'z oknem bocznym' };
+  const hhMap = {
+    'dzieci': 'w tym małe dzieci szczególnie wrażliwe na hałas i zanieczyszczenie powietrza',
+    'starsi': 'w tym osoby starsze, dla których hałas i drgania stanowią szczególne zagrożenie zdrowotne',
+    'niepelnosprawni': 'w tym osoby z niepełnosprawnościami, szczególnie narażone na uciążliwości związane z budową'
+  };
 
-  if (profile.floor || profile.side) {
-    let loc = '';
-    if (profile.floor) {
-      const floorMap = { 'parter': 'na parterze', '1': 'na pierwszym piętrze', '2': 'na drugim piętrze', '3': 'na trzecim piętrze', '4': 'na czwartym piętrze', '5+': 'na jednym z wyższych pięter' };
-      loc = floorMap[profile.floor] || '';
+  // Build location string: "na II piętrze, od strony planowanej trasy"
+  let locParts = [];
+  if (profile.floor && floorMap[profile.floor]) locParts.push(floorMap[profile.floor]);
+  if (profile.side && sideMap[profile.side]) locParts.push(sideMap[profile.side]);
+  const locStr = locParts.join(', ');
+
+  // Build years string
+  const yearsStr = profile.years ? yearsMap[profile.years] : '';
+
+  // Build household string
+  const hhStr = profile.household ? hhMap[profile.household] : '';
+
+  // --- AD-1: Main request — always gets full personal context ---
+  const ad1 = items.find(it => it.code === 'AD-1');
+  if (ad1) {
+    let personal = ' Jako mieszkaniec osiedla Oliva Koncept';
+    if (yearsStr) personal += ' zamieszkujący tu ' + yearsStr;
+    if (locStr) personal += ', w lokalu ' + locStr;
+    personal += ',';
+    if (hhStr) personal += ' prowadzący gospodarstwo domowe ' + hhStr + ',';
+    personal += ' bezpośrednio odczuwam skutki planowanej inwestycji i wnoszę niniejsze pismo w trosce o warunki życia mojej rodziny i sąsiadów.';
+    if (profile.concern) {
+      personal += ' Szczególnie niepokoi mnie: ' + profile.concern + '.';
     }
-    if (profile.side) {
-      const sideMap = { 'trasa': 'od strony planowanej trasy', 'podworze': 'od strony podwórza', 'boczna': 'z oknem bocznym' };
-      loc += (loc ? ', ' : '') + (sideMap[profile.side] || '');
+    ad1.text += personal;
+  }
+
+  // --- AK-* items: acoustic context (floor + side = exposure) ---
+  if (locStr) {
+    const akItems = items.filter(it => it.code.startsWith('AK-') && it.code !== 'AK-16');
+    if (akItems.length > 0) {
+      const akTarget = akItems[Math.floor(rng() * akItems.length)];
+
+      // Pick a context-appropriate acoustic sentence
+      const akSentences = [];
+      if (profile.side === 'trasa') {
+        akSentences.push(
+          ' Moje mieszkanie znajduje się ' + locStr + ', co oznacza bezpośrednią ekspozycję na hałas z planowanego buspasa.',
+          ' Mieszkam ' + locStr + ' — hałas z trasy dociera do mnie bez żadnej przeszkody terenowej.',
+          ' Jako mieszkaniec lokalu ' + locStr + ', będę jednym z najbardziej narażonych na oddziaływanie akustyczne inwestycji.'
+        );
+      } else if (profile.side === 'podworze') {
+        akSentences.push(
+          ' Choć moje mieszkanie znajduje się ' + locStr + ', hałas drogowy ulega dyfrakcji na krawędzi budynku i dociera również do elewacji tylnej.',
+          ' Mieszkam ' + locStr + ', ale doświadczenie z istniejącym ruchem na al. Grunwaldzkiej pokazuje, że hałas przenika także na stronę podwórzową.'
+        );
+      } else {
+        akSentences.push(
+          ' Mieszkam ' + locStr + ' i bezpośrednio odczuwam oddziaływanie akustyczne istniejącego ruchu drogowego.',
+          ' Jako mieszkaniec lokalu ' + locStr + ', z codziennego doświadczenia wiem, jak daleko rozchodzi się hałas drogowy w naszym osiedlu.'
+        );
+      }
+
+      if (profile.floor && ['3', '4', '5+'].includes(profile.floor)) {
+        akSentences.push(
+          ' Mieszkam ' + locStr + ' — powyżej górnej krawędzi planowanych ekranów akustycznych, co oznacza, że ekrany nie zapewnią mi żadnej ochrony przed hałasem.'
+        );
+      }
+
+      akTarget.text += akSentences[Math.floor(rng() * akSentences.length)];
     }
-    if (loc) parts.push(loc);
   }
 
-  if (profile.household) {
-    const hhMap = {
-      'dzieci': 'W moim gospodarstwie domowym są małe dzieci, szczególnie wrażliwe na hałas i zanieczyszczenie powietrza',
-      'starsi': 'Wraz ze mną zamieszkują osoby starsze, dla których hałas i drgania stanowią szczególne zagrożenie zdrowotne',
-      'niepelnosprawni': 'W moim gospodarstwie domowym znajdują się osoby z niepełnosprawnościami, co czyni nas szczególnie narażonymi na uciążliwości związane z budową'
-    };
-    if (hhMap[profile.household]) parts.push(hhMap[profile.household]);
+  // --- BU-* items: building/residency context ---
+  const buItems = items.filter(it => it.code.startsWith('BU-'));
+  if (buItems.length > 0 && yearsStr) {
+    const buTarget = buItems[Math.floor(rng() * buItems.length)];
+    const buSentences = [
+      ' Mieszkam w osiedlu Oliva Koncept ' + yearsStr + ' i znam stan techniczny budynku z codziennej obserwacji.',
+      ' Jako mieszkaniec osiedla od ' + yearsStr.replace('od ', '') + ', obserwuję stan budynku na co dzień i obawiam się wpływu robót budowlanych na jego konstrukcję.',
+      ' Zamieszkuję osiedle ' + yearsStr + ' — każde pęknięcie czy uszkodzenie elewacji jest mi znane, co pozwoli na rzetelną ocenę ewentualnych szkód budowlanych.'
+    ];
+    buTarget.text += buSentences[Math.floor(rng() * buSentences.length)];
   }
 
+  // --- DR-* items: household vulnerability (children/elderly/disabled) ---
+  const drItems = items.filter(it => it.code.startsWith('DR-'));
+  if (drItems.length > 0 && hhStr) {
+    const drTarget = drItems[Math.floor(rng() * drItems.length)];
+    const drSentences = [
+      ' W moim gospodarstwie domowym mieszkają osoby wymagające szczególnej ochrony (' + hhStr + '), dla których bezpieczeństwo drogowe jest kwestią priorytetową.',
+      ' Jest to szczególnie istotne z perspektywy mojej rodziny — ' + hhStr + ' — co wymaga zapewnienia najwyższych standardów bezpieczeństwa ruchu drogowego.'
+    ];
+    drTarget.text += drSentences[Math.floor(rng() * drSentences.length)];
+  }
+
+  // --- FL-*/FA-* items: nature concern if applicable ---
   if (profile.concern) {
-    parts.push('Szczególnie niepokoi mnie: ' + profile.concern);
+    const concernLower = profile.concern.toLowerCase();
+    const isNatureConcern = /drzew|zieleń|ptaki|zwierz|natura|park|las|ogród/.test(concernLower);
+    if (isNatureConcern) {
+      const natureItems = items.filter(it => it.code.startsWith('FL-') || it.code.startsWith('FA-'));
+      if (natureItems.length > 0) {
+        const natTarget = natureItems[Math.floor(rng() * natureItems.length)];
+        natTarget.text += ' Jako mieszkaniec osiedla bezpośrednio sąsiadującego z Trójmiejskim Parkiem Krajobrazowym, codziennie korzystam z walorów przyrodniczych tego terenu i obserwuję żyjące tu gatunki.';
+      }
+    }
   }
 
-  if (parts.length === 0) return '';
-
-  return parts.join('. ') + '. Planowana inwestycja bezpośrednio wpływa na moje warunki życia, dlatego składam niniejsze pismo z pełną świadomością wagi poruszanych w nim kwestii.';
+  return items;
 }
 
 // ============================================
@@ -573,15 +650,12 @@ async function generatePDF() {
     const bodyPages = await finalDoc.copyPages(bodySrc, bodyIndices);
     bodyPages.forEach(p => finalDoc.addPage(p));
 
-    // 2. Personal paragraph page (if profile filled)
+    // 2. Weave personal profile into petitum items
     const profile = collectProfile();
-    const personalText = buildPersonalParagraph(profile);
-    if (personalText) {
-      renderPersonalPage(finalDoc, fontReg, fontBold, personalText);
-    }
+    const personalizedItems = personalizeItems(selectedItems, profile, rng);
 
-    // 3. Dynamic petitum
-    await renderPetitumPages(finalDoc, fontReg, fontBold, selectedItems);
+    // 3. Dynamic petitum (with personalized items)
+    await renderPetitumPages(finalDoc, fontReg, fontBold, personalizedItems);
 
     // 4. Closing pages from original template
     const closingStart = PETITUM_CONFIG.closingStartPage - 1;
@@ -610,31 +684,7 @@ async function generatePDF() {
   }
 }
 
-// ============================================
-// RENDER PERSONAL PARAGRAPH PAGE
-// ============================================
-function renderPersonalPage(pdfDoc, fontReg, fontBold, text) {
-  const PAGE_W = 595.28;
-  const PAGE_H = 841.89;
-  const ML = 85;
-  const MR = 57;
-  const MT = 71;
-  const MAX_W = PAGE_W - ML - MR;
-  const FONT_SIZE = 11;
-  const LEADING = 16;
-
-  const page = pdfDoc.addPage([PAGE_W, PAGE_H]);
-  let y = PAGE_H - MT;
-
-  page.drawText('UZASADNIENIE INDYWIDUALNE', { x: ML, y, size: 13, font: fontBold, color: PDFLib.rgb(0, 0, 0) });
-  y -= 26;
-
-  const lines = wrapText(text, fontReg, FONT_SIZE, MAX_W);
-  for (const line of lines) {
-    page.drawText(line, { x: ML, y, size: FONT_SIZE, font: fontReg, color: PDFLib.rgb(0, 0, 0) });
-    y -= LEADING;
-  }
-}
+// (renderPersonalPage removed — profile data is now woven into petitum items via personalizeItems())
 
 // ============================================
 // FILL PERSONAL DATA ON PAGE 1
