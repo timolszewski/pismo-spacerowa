@@ -61,8 +61,7 @@ function collectProfile() {
 
 function personalizeItems(items, profile, rng) {
   // Weave personal profile data INTO petitum items to make each letter genuinely individual.
-  // Instead of a separate "personal justification" page, we append context-appropriate
-  // personal sentences directly to relevant petitum items.
+  // ~20 targeted personalization points based on profile × specific petitum code.
 
   const yearsMap = { '<1': 'niecały rok', '1-3': 'od kilku lat', '3-5': 'od ponad trzech lat', '5+': 'od ponad pięciu lat' };
   const floorMap = { 'parter': 'na parterze', '1': 'na I piętrze', '2': 'na II piętrze', '3': 'na III piętrze', '4': 'na IV piętrze', '5+': 'na jednym z wyższych pięter' };
@@ -72,103 +71,331 @@ function personalizeItems(items, profile, rng) {
     'starsi': 'w tym osoby starsze, dla których hałas i drgania stanowią szczególne zagrożenie zdrowotne',
     'niepelnosprawni': 'w tym osoby z niepełnosprawnościami, szczególnie narażone na uciążliwości związane z budową'
   };
+  const hhShort = {
+    'dzieci': 'małe dzieci',
+    'starsi': 'osoby starsze',
+    'niepelnosprawni': 'osoby z niepełnosprawnościami'
+  };
+  const hhRole = {
+    'dzieci': 'rodzic małych dzieci',
+    'starsi': 'opiekun osoby starszej',
+    'niepelnosprawni': 'opiekun osoby z niepełnosprawnością'
+  };
 
-  // Build location string: "na II piętrze, od strony planowanej trasy"
   let locParts = [];
   if (profile.floor && floorMap[profile.floor]) locParts.push(floorMap[profile.floor]);
   if (profile.side && sideMap[profile.side]) locParts.push(sideMap[profile.side]);
   const locStr = locParts.join(', ');
-
-  // Build years string
   const yearsStr = profile.years ? yearsMap[profile.years] : '';
-
-  // Build household string
   const hhStr = profile.household ? hhMap[profile.household] : '';
+  const isHighFloor = profile.floor && ['3', '4', '5+'].includes(profile.floor);
+  const isLowFloor = profile.floor && ['parter', '1'].includes(profile.floor);
+  const isTrasa = profile.side === 'trasa';
+  const isLongResident = profile.years && ['3-5', '5+'].includes(profile.years);
 
-  // --- AD-1: Main request — always gets full personal context ---
+  // Helper: find item by code, append text
+  function append(code, text) {
+    const item = items.find(it => it.code === code);
+    if (item) item.text += text;
+  }
+  // Helper: pick random from array
+  function pick(arr) { return arr[Math.floor(rng() * arr.length)]; }
+
+  // ================================================================
+  // 1. AD-1: Main request — always gets full personal context
+  // ================================================================
   const ad1 = items.find(it => it.code === 'AD-1');
   if (ad1) {
-    let personal = ' Jako mieszkaniec osiedla Oliva Koncept';
-    if (yearsStr) personal += ' zamieszkujący tu ' + yearsStr;
-    if (locStr) personal += ', w lokalu ' + locStr;
-    personal += ',';
-    if (hhStr) personal += ' prowadzący gospodarstwo domowe ' + hhStr + ',';
-    personal += ' bezpośrednio odczuwam skutki planowanej inwestycji i wnoszę niniejsze pismo w trosce o warunki życia mojej rodziny i sąsiadów.';
-    if (profile.concern) {
-      personal += ' Szczególnie niepokoi mnie: ' + profile.concern + '.';
-    }
-    ad1.text += personal;
+    let p = ' Jako mieszkaniec osiedla Oliva Koncept';
+    if (yearsStr) p += ' zamieszkujący tu ' + yearsStr;
+    if (locStr) p += ', w lokalu ' + locStr;
+    p += ',';
+    if (hhStr) p += ' prowadzący gospodarstwo domowe ' + hhStr + ',';
+    p += ' bezpośrednio odczuwam skutki planowanej inwestycji i wnoszę niniejsze pismo w trosce o warunki życia mojej rodziny i sąsiadów.';
+    if (profile.concern) p += ' Szczególnie niepokoi mnie: ' + profile.concern + '.';
+    ad1.text += p;
   }
 
-  // --- AK-* items: acoustic context (floor + side = exposure) ---
+  // ================================================================
+  // 2. AK-* TARGETED: specific floor/side → specific acoustic items
+  // ================================================================
+
+  // AK-4 (ekrany wyższe kondygnacje) ← high floor
+  if (isHighFloor && items.find(it => it.code === 'AK-4')) {
+    append('AK-4', pick([
+      ' Mieszkam ' + locStr + ' — powyżej górnej krawędzi planowanych ekranów akustycznych (3-6 m), co oznacza, że ekrany nie zapewnią mi żadnej ochrony przed hałasem.',
+      ' Jako mieszkaniec lokalu ' + locStr + ', jestem bezpośrednio dotknięty brakiem analizy skuteczności ekranów dla wyższych kondygnacji — fala dźwiękowa przechodzi nad ekranem i dociera do mojego mieszkania.'
+    ]));
+  }
+
+  // AK-17 (nasłonecznienie / transparentne ekrany) ← low floor + trasa
+  if (isLowFloor && isTrasa && items.find(it => it.code === 'AK-17')) {
+    append('AK-17', pick([
+      ' Moje mieszkanie ' + locStr + ' będzie bezpośrednio pozbawione nasłonecznienia przez nieprzezroczyste ekrany o wysokości do 6 m.',
+      ' Jako mieszkaniec lokalu ' + locStr + ', utrata nasłonecznienia dotknie mnie osobiście — transparentne panele to jedyny sposób na zachowanie światła dziennego w moim mieszkaniu.'
+    ]));
+  }
+
+  // AK-5 (hałas nocny LAmax) ← household dzieci/starsi
+  if (profile.household && ['dzieci', 'starsi'].includes(profile.household) && items.find(it => it.code === 'AK-5')) {
+    if (profile.household === 'dzieci') {
+      append('AK-5', pick([
+        ' Moje małe dzieci śpią w pokoju od strony trasy — autobus nocą co 14 minut oznacza realne zaburzenia snu u rozwijającego się organizmu.',
+        ' Jako rodzic małych dzieci obawiam się wpływu nocnego hałasu na ich zdrowie — dzieci potrzebują nieprzerwanego snu dla prawidłowego rozwoju.'
+      ]));
+    } else {
+      append('AK-5', pick([
+        ' W moim mieszkaniu żyją osoby starsze, dla których zaburzenia snu nocnym hałasem stanowią bezpośrednie zagrożenie zdrowotne.',
+        ' Zamieszkujące ze mną osoby starsze są szczególnie wrażliwe na hałas nocny — każde przebudzenie pogarsza ich stan zdrowia.'
+      ]));
+    }
+  }
+
+  // AK-7 (hałas niskoczęstotliwościowy 20-200 Hz) ← side trasa
+  if (isTrasa && items.find(it => it.code === 'AK-7')) {
+    append('AK-7', pick([
+      ' Mieszkając od strony planowanej trasy, dudnienie niskoczęstotliwościowe będzie docierać do mojego lokalu bezpośrednio, bez żadnego tłumienia.',
+      ' Moje mieszkanie od strony trasy będzie narażone na pełne oddziaływanie hałasu niskoczęstotliwościowego, którego ekrany akustyczne nie eliminują.'
+    ]));
+  }
+
+  // AK-12 (kumulacja hałasu) ← long resident
+  if (isLongResident && items.find(it => it.code === 'AK-12')) {
+    append('AK-12', pick([
+      ' Mieszkam tu ' + yearsStr + ' i z własnego doświadczenia wiem, że hałas z linii kolejowej nr 250 i al. Grunwaldzkiej jest już wyraźnie odczuwalny — dodanie buspasa z 308 autobusami dziennie przekroczy granicę wytrzymałości.',
+      ' Zamieszkując osiedle ' + yearsStr + ', codziennie słyszę pociągi i ruch z al. Grunwaldzkiej — kumulacja z buspasem będzie nie do zniesienia.'
+    ]));
+  }
+
+  // AK-* random (1 generic item from remaining AK) ← locStr
   if (locStr) {
-    const akItems = items.filter(it => it.code.startsWith('AK-') && it.code !== 'AK-16');
-    if (akItems.length > 0) {
-      const akTarget = akItems[Math.floor(rng() * akItems.length)];
-
-      // Pick a context-appropriate acoustic sentence
-      const akSentences = [];
-      if (profile.side === 'trasa') {
-        akSentences.push(
-          ' Moje mieszkanie znajduje się ' + locStr + ', co oznacza bezpośrednią ekspozycję na hałas z planowanego buspasa.',
-          ' Mieszkam ' + locStr + ' — hałas z trasy dociera do mnie bez żadnej przeszkody terenowej.',
-          ' Jako mieszkaniec lokalu ' + locStr + ', będę jednym z najbardziej narażonych na oddziaływanie akustyczne inwestycji.'
-        );
-      } else if (profile.side === 'podworze') {
-        akSentences.push(
-          ' Choć moje mieszkanie znajduje się ' + locStr + ', hałas drogowy ulega dyfrakcji na krawędzi budynku i dociera również do elewacji tylnej.',
-          ' Mieszkam ' + locStr + ', ale doświadczenie z istniejącym ruchem na al. Grunwaldzkiej pokazuje, że hałas przenika także na stronę podwórzową.'
-        );
-      } else {
-        akSentences.push(
-          ' Mieszkam ' + locStr + ' i bezpośrednio odczuwam oddziaływanie akustyczne istniejącego ruchu drogowego.',
-          ' Jako mieszkaniec lokalu ' + locStr + ', z codziennego doświadczenia wiem, jak daleko rozchodzi się hałas drogowy w naszym osiedlu.'
-        );
-      }
-
-      if (profile.floor && ['3', '4', '5+'].includes(profile.floor)) {
-        akSentences.push(
-          ' Mieszkam ' + locStr + ' — powyżej górnej krawędzi planowanych ekranów akustycznych, co oznacza, że ekrany nie zapewnią mi żadnej ochrony przed hałasem.'
-        );
-      }
-
-      akTarget.text += akSentences[Math.floor(rng() * akSentences.length)];
+    const usedAK = new Set(['AK-4', 'AK-5', 'AK-7', 'AK-12', 'AK-16', 'AK-17']);
+    const remainingAK = items.filter(it => it.code.startsWith('AK-') && !usedAK.has(it.code));
+    if (remainingAK.length > 0) {
+      const akTarget = pick(remainingAK);
+      akTarget.text += pick([
+        ' Moje mieszkanie znajduje się ' + locStr + ', co oznacza bezpośrednią ekspozycję na oddziaływanie akustyczne planowanej inwestycji.',
+        ' Jako mieszkaniec lokalu ' + locStr + ', z codziennego doświadczenia wiem, jak daleko rozchodzi się hałas drogowy w naszym osiedlu.'
+      ]);
     }
   }
 
-  // --- BU-* items: building/residency context ---
-  const buItems = items.filter(it => it.code.startsWith('BU-'));
-  if (buItems.length > 0 && yearsStr) {
-    const buTarget = buItems[Math.floor(rng() * buItems.length)];
-    const buSentences = [
-      ' Mieszkam w osiedlu Oliva Koncept ' + yearsStr + ' i znam stan techniczny budynku z codziennej obserwacji.',
-      ' Jako mieszkaniec osiedla od ' + yearsStr.replace('od ', '') + ', obserwuję stan budynku na co dzień i obawiam się wpływu robót budowlanych na jego konstrukcję.',
-      ' Zamieszkuję osiedle ' + yearsStr + ' — każde pęknięcie czy uszkodzenie elewacji jest mi znane, co pozwoli na rzetelną ocenę ewentualnych szkód budowlanych.'
-    ];
-    buTarget.text += buSentences[Math.floor(rng() * buSentences.length)];
+  // ================================================================
+  // 3. BU-* TARGETED: specific items + 1 random
+  // ================================================================
+
+  // BU-8 (nasłonecznienie z ekranami) ← low floor + trasa
+  if (isLowFloor && isTrasa && items.find(it => it.code === 'BU-8')) {
+    append('BU-8', pick([
+      ' Moje mieszkanie ' + locStr + ' jest bezpośrednio zagrożone utratą nasłonecznienia — ekrany o wysokości 3-6 m mogą całkowicie zasłonić światło dzienne.',
+      ' Analiza nasłonecznienia dotyczy wprost mojego lokalu ' + locStr + ' — wymóg minimum 3 godzin nasłonecznienia (§ 60 WT) może nie zostać spełniony.'
+    ]));
   }
 
-  // --- DR-* items: household vulnerability (children/elderly/disabled) ---
-  const drItems = items.filter(it => it.code.startsWith('DR-'));
-  if (drItems.length > 0 && hhStr) {
-    const drTarget = drItems[Math.floor(rng() * drItems.length)];
-    const drSentences = [
-      ' W moim gospodarstwie domowym mieszkają osoby wymagające szczególnej ochrony (' + hhStr + '), dla których bezpieczeństwo drogowe jest kwestią priorytetową.',
-      ' Jest to szczególnie istotne z perspektywy mojej rodziny — ' + hhStr + ' — co wymaga zapewnienia najwyższych standardów bezpieczeństwa ruchu drogowego.'
-    ];
-    drTarget.text += drSentences[Math.floor(rng() * drSentences.length)];
+  // BU-9 (wentylacja naturalna) ← side trasa
+  if (isTrasa && items.find(it => it.code === 'BU-9')) {
+    append('BU-9', pick([
+      ' Ekrany akustyczne od strony trasy mogą zablokować naturalną wentylację mojego lokalu, który znajduje się właśnie od tej strony.',
+      ' Jako mieszkaniec lokalu od strony trasy obawiam się, że ekrany o wysokości do 6 m stworzą barierę wentylacyjną, zatrzymującą przepływ powietrza.'
+    ]));
   }
 
-  // --- FL-*/FA-* items: nature concern if applicable ---
+  // BU-5 (hydrogeologia / osuszenie) ← parter
+  if (profile.floor === 'parter' && items.find(it => it.code === 'BU-5')) {
+    append('BU-5', ' Mieszkam na parterze — ewentualne osiadanie fundamentów spowodowane odwodnieniem wykopów dotknie mój lokal w pierwszej kolejności.');
+  }
+
+  // BU-10 (wartość nieruchomości) ← always
+  if (items.find(it => it.code === 'BU-10')) {
+    append('BU-10', pick([
+      ' Jako właściciel lokalu w osiedlu Oliva Koncept, bezpośrednio odczuję każdy spadek wartości nieruchomości spowodowany inwestycją.',
+      ' Spadek wartości mojego mieszkania o prognozowane 5-15% to realna strata finansowa, która dotknie moją rodzinę bezpośrednio.'
+    ]));
+  }
+
+  // BU-13 (wycena nieruchomości) ← always
+  if (items.find(it => it.code === 'BU-13')) {
+    append('BU-13', pick([
+      ' Jako właściciel lokalu w strefie oddziaływania wnoszę o niezależną wycenę przed rozpoczęciem budowy — to jedyny sposób na udokumentowanie ewentualnego spadku wartości.',
+      ' Niezależna wycena mojej nieruchomości przed budową jest warunkiem koniecznym do dochodzenia ewentualnych roszczeń odszkodowawczych.'
+    ]));
+  }
+
+  // BU-* random (1 generic from remaining BU) ← yearsStr
+  if (yearsStr) {
+    const usedBU = new Set(['BU-5', 'BU-8', 'BU-9', 'BU-10', 'BU-13']);
+    const remainingBU = items.filter(it => it.code.startsWith('BU-') && !usedBU.has(it.code));
+    if (remainingBU.length > 0) {
+      const buTarget = pick(remainingBU);
+      buTarget.text += pick([
+        ' Mieszkam w osiedlu Oliva Koncept ' + yearsStr + ' i znam stan techniczny budynku z codziennej obserwacji.',
+        ' Zamieszkuję osiedle ' + yearsStr + ' — każde pęknięcie czy uszkodzenie elewacji jest mi znane, co pozwoli na rzetelną ocenę ewentualnych szkód budowlanych.'
+      ]);
+    }
+  }
+
+  // ================================================================
+  // 4. DR-* TARGETED: household-specific items + 1 random
+  // ================================================================
+
+  // DR-6 (plan dostępności / trasy szkolne) ← dzieci
+  if (profile.household === 'dzieci' && items.find(it => it.code === 'DR-6')) {
+    append('DR-6', pick([
+      ' Moje dzieci codziennie pokonują trasę w pobliżu planowanej budowy — bezpieczne trasy szkolne na czas 18-24 miesięcy robót to dla mnie priorytet.',
+      ' Jako rodzic małych dzieci mieszkający przy trasie inwestycji, gwarancja bezpiecznego dojścia do placówek oświatowych jest warunkiem koniecznym.'
+    ]));
+  }
+
+  // DR-5 (dostępność komunikacyjna budowa) ← starsi/niepelnosprawni
+  if (profile.household && ['starsi', 'niepelnosprawni'].includes(profile.household) && items.find(it => it.code === 'DR-5')) {
+    append('DR-5', pick([
+      ' W moim gospodarstwie domowym mieszkają ' + hhShort[profile.household] + ' — ograniczenie dostępności komunikacyjnej na 18-24 miesięcy budowy będzie dla nich szczególnie dotkliwe.',
+      ' Zamieszkujące ze mną ' + hhShort[profile.household] + ' wymagają regularnego dostępu do placówek medycznych — utrudniony dojazd na czas budowy stanowi zagrożenie dla ich zdrowia.'
+    ]));
+  }
+
+  // DR-7 (dodatkowy przystanek) ← household any
+  if (hhStr && items.find(it => it.code === 'DR-7')) {
+    append('DR-7', pick([
+      ' 800 metrów do najbliższego przystanku to istotna bariera dla ' + hhShort[profile.household] + ' z mojego gospodarstwa domowego — dodatkowy przystanek znacząco poprawi naszą codzienną mobilność.',
+      ' Dla mojej rodziny (' + hhStr + ') dystans 800 m do przystanku Dom Zarazy jest realną przeszkodą, szczególnie zimą i w deszczu.'
+    ]));
+  }
+
+  // DR-1 (BRD / bezpieczeństwo drogowe) ← dzieci
+  if (profile.household === 'dzieci' && items.find(it => it.code === 'DR-1')) {
+    append('DR-1', ' Bezpieczeństwo na drodze dotyczy bezpośrednio moich dzieci, które codziennie przechodzą w pobliżu planowanej trasy.');
+  }
+
+  // DR-* random (1 generic from remaining DR) ← hhStr
+  if (hhStr) {
+    const usedDR = new Set(['DR-1', 'DR-5', 'DR-6', 'DR-7']);
+    const remainingDR = items.filter(it => it.code.startsWith('DR-') && !usedDR.has(it.code));
+    if (remainingDR.length > 0) {
+      const drTarget = pick(remainingDR);
+      drTarget.text += pick([
+        ' W moim gospodarstwie domowym mieszkają osoby wymagające szczególnej ochrony (' + hhStr + '), dla których organizacja ruchu jest kwestią priorytetową.',
+        ' Jest to szczególnie istotne z perspektywy mojej rodziny — ' + hhStr + ' — co wymaga zapewnienia najwyższych standardów bezpieczeństwa.'
+      ]);
+    }
+  }
+
+  // ================================================================
+  // 5. FL-*/FA-* TARGETED
+  // ================================================================
+
+  // FL-15 (pas zieleni izolacyjnej) ← side trasa
+  if (isTrasa && items.find(it => it.code === 'FL-15')) {
+    append('FL-15', pick([
+      ' Pas zieleni między trasą a osiedlem jest dla mnie kluczowy — moje okna wychodzą wprost na planowaną trasę buspasa.',
+      ' Jako mieszkaniec lokalu od strony trasy, wielopiętrowy pas zieleni jest jedynym sposobem na przywrócenie bariery wizualnej i akustycznej przed moimi oknami.'
+    ]));
+  }
+
+  // FL-9 (zgodność z planem ochrony TPK) ← long resident
+  if (isLongResident && items.find(it => it.code === 'FL-9')) {
+    append('FL-9', pick([
+      ' Wybrałem osiedle sąsiadujące z Trójmiejskim Parkiem Krajobrazowym świadomie — mieszkam tu ' + yearsStr + ' i ochrona tego terenu ma dla mnie fundamentalne znaczenie.',
+      ' Zamieszkuję przy TPK ' + yearsStr + ' właśnie ze względu na walory przyrodnicze tego miejsca — ich degradacja bezpośrednio wpływa na jakość mojego życia.'
+    ]));
+  }
+
+  // FA-15 (oświetlenie ≤2700K) ← side trasa
+  if (isTrasa && items.find(it => it.code === 'FA-15')) {
+    append('FA-15', pick([
+      ' Oświetlenie drogowe będzie świecić bezpośrednio w okna mojej sypialni od strony trasy — ciepłe światło z pełną kierunkowością (full cut-off) to minimum dla zachowania komfortu snu.',
+      ' Jako mieszkaniec lokalu od strony trasy, oświetlenie drogowe wpłynie nie tylko na faunę nocną, ale też bezpośrednio na jakość mojego snu.'
+    ]));
+  }
+
+  // FL-*/FA-* nature concern (free text) → random nature item
   if (profile.concern) {
     const concernLower = profile.concern.toLowerCase();
     const isNatureConcern = /drzew|zieleń|ptaki|zwierz|natura|park|las|ogród/.test(concernLower);
     if (isNatureConcern) {
-      const natureItems = items.filter(it => it.code.startsWith('FL-') || it.code.startsWith('FA-'));
+      const usedNature = new Set(['FL-9', 'FL-15', 'FA-15']);
+      const natureItems = items.filter(it => (it.code.startsWith('FL-') || it.code.startsWith('FA-')) && !usedNature.has(it.code));
       if (natureItems.length > 0) {
-        const natTarget = natureItems[Math.floor(rng() * natureItems.length)];
-        natTarget.text += ' Jako mieszkaniec osiedla bezpośrednio sąsiadującego z Trójmiejskim Parkiem Krajobrazowym, codziennie korzystam z walorów przyrodniczych tego terenu i obserwuję żyjące tu gatunki.';
+        pick(natureItems).text += ' Jako mieszkaniec osiedla bezpośrednio sąsiadującego z Trójmiejskim Parkiem Krajobrazowym, codziennie korzystam z walorów przyrodniczych tego terenu i obserwuję żyjące tu gatunki.';
       }
+    }
+  }
+
+  // ================================================================
+  // 6. PR-* TARGETED (previously unpersonalized!)
+  // ================================================================
+
+  // PR-1 (konsultacje społeczne) ← always
+  if (items.find(it => it.code === 'PR-1')) {
+    append('PR-1', pick([
+      ' Jako bezpośrednio dotknięty mieszkaniec osiedla Oliva Koncept, żądam realnego udziału w procesie konsultacji — dotychczas nikt nas nie pytał o zdanie.',
+      ' Mieszkam bezpośrednio przy planowanej inwestycji i nie zostałem w żaden sposób poinformowany ani skonsultowany — to naruszenie mojego prawa do udziału w postępowaniu.'
+    ]));
+  }
+
+  // PR-5 (identyfikacja interesariuszy) ← household
+  if (profile.household && items.find(it => it.code === 'PR-5')) {
+    append('PR-5', ' Jako ' + hhRole[profile.household] + ' mieszkający w strefie oddziaływania, należę do grupy interesariuszy wymagającej szczególnej uwagi w procesie konsultacji.');
+  }
+
+  // PR-7 (analiza konfliktów społecznych) ← years
+  if (yearsStr && items.find(it => it.code === 'PR-7')) {
+    append('PR-7', pick([
+      ' Mieszkam w osiedlu ' + yearsStr + ' i obserwuję narastający konflikt między inwestorem a mieszkańcami — obecna analiza KIP całkowicie go pomija.',
+      ' Zamieszkuję tu ' + yearsStr + ' i widzę, jak planowana inwestycja dzieli społeczność lokalną — analiza konfliktów w KIP nie oddaje skali problemu.'
+    ]));
+  }
+
+  // ================================================================
+  // 7. AD-* TARGETED (beyond AD-1)
+  // ================================================================
+
+  // AD-4 (podstawy prawne roszczeń) ← always
+  if (items.find(it => it.code === 'AD-4')) {
+    append('AD-4', pick([
+      ' Jako właściciel nieruchomości w strefie oddziaływania, zamierzam skorzystać z przysługujących mi praw odszkodowawczych w razie poniesienia szkody.',
+      ' Wskazanie tych podstaw prawnych w decyzji ma dla mnie jako właściciela bezpośrednie znaczenie — stanowi punkt wyjścia do ewentualnych roszczeń.'
+    ]));
+  }
+
+  // AD-9 (monitoring porealizacyjny) ← years
+  if (yearsStr && items.find(it => it.code === 'AD-9')) {
+    append('AD-9', pick([
+      ' Zamieszkuję tu ' + yearsStr + ' i zamierzam mieszkać nadal — monitoring porealizacyjny ma bezpośredni wpływ na jakość mojego życia w perspektywie wielu lat.',
+      ' Mieszkam w osiedlu ' + yearsStr + ' i planuję tu pozostać — wieloletni monitoring to gwarancja, że warunki po budowie nie pogorszą się poniżej akceptowalnego poziomu.'
+    ]));
+  }
+
+  // AD-11 (monitoring dedykowany osiedla) ← always
+  if (items.find(it => it.code === 'AD-11')) {
+    append('AD-11', pick([
+      ' Ogólne dane z odległych punktów pomiarowych nie oddadzą rzeczywistych warunków przy moim budynku — dedykowana stacja monitoringu przy osiedlu Oliva Koncept jest niezbędna.',
+      ' Jako mieszkaniec osiedla bezpośrednio przy trasie potrzebuję lokalnych, a nie uśrednionych danych — stacja monitoringu przy naszych budynkach to minimum.'
+    ]));
+  }
+
+  // ================================================================
+  // 8. CONCERN-DRIVEN: free text → specific codes
+  // ================================================================
+  if (profile.concern) {
+    const cl = profile.concern.toLowerCase();
+    if (/hałas|cisza|sen|spać|budzić/.test(cl) && items.find(it => it.code === 'AK-16')) {
+      append('AK-16', ' Hałas jest moim osobistym zmartwieniem jako mieszkańca bezpośrednio przy trasie — pakiet kompensacyjny to niezbędne minimum ochrony.');
+    }
+    if (/drga|pęk|pękn|trzęs|budyn/.test(cl) && items.find(it => it.code === 'BU-1')) {
+      append('BU-1', ' Obawy o drgania i stan budynku wynikają z mojego osobistego doświadczenia jako mieszkańca osiedla — każda wibracja jest odczuwalna.');
+    }
+    if (/wartość|cena|mieszkan|spadek|strata/.test(cl) && !items.find(it => it.code === 'BU-10' && it.text.includes('właściciel'))) {
+      // Only if BU-10 wasn't already personalized above (check by looking for our marker word)
+      if (items.find(it => it.code === 'BU-10')) {
+        append('BU-10', ' Ochrona wartości mojego mieszkania jest dla mnie kwestią egzystencjalną — to dorobek mojego życia.');
+      }
+    }
+    if (/bezpiecz|dziec|szkoł|przejśc/.test(cl) && items.find(it => it.code === 'DR-1') && profile.household !== 'dzieci') {
+      append('DR-1', ' Bezpieczeństwo na drodze jest moim osobistym zmartwieniem — codziennie przechodzę w pobliżu planowanej trasy.');
+    }
+    if (/powietrz|pył|smog|kurz|filtr/.test(cl) && items.find(it => it.code === 'AK-16')) {
+      append('AK-16', ' Jakość powietrza to moja osobista troska — zwłaszcza wymiana filtrów rekuperacji, które chronią przed zapyleniem z budowy.');
     }
   }
 
