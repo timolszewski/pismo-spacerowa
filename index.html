@@ -255,6 +255,67 @@
       <div class="hint">Ułatwia identyfikację, ale można pominąć</div>
     </div>
 
+    <div class="profile-section">
+      <div class="profile-header">
+        <h3>Profil mieszkańca <span class="optional">(opcjonalnie)</span></h3>
+        <p>Wzmocnij pismo indywidualnym uzasadnieniem. Te dane dodadzą osobisty akapit do pisma.</p>
+      </div>
+      <div class="form-row">
+        <div class="form-group form-group-grow">
+          <label for="field-floor">Piętro</label>
+          <select id="field-floor">
+            <option value="">—</option>
+            <option value="parter">Parter</option>
+            <option value="1">1.</option>
+            <option value="2">2.</option>
+            <option value="3">3.</option>
+            <option value="4">4.</option>
+            <option value="5+">5.+</option>
+          </select>
+        </div>
+        <div class="form-group form-group-grow">
+          <label for="field-side">Strona</label>
+          <select id="field-side">
+            <option value="">—</option>
+            <option value="trasa">Od trasy</option>
+            <option value="podworze">Od podwórza</option>
+            <option value="boczna">Boczna</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group form-group-grow">
+          <label for="field-years">Mieszkam tu od</label>
+          <select id="field-years">
+            <option value="">—</option>
+            <option value="<1">&lt;1 roku</option>
+            <option value="1-3">1–3 lat</option>
+            <option value="3-5">3–5 lat</option>
+            <option value="5+">5+ lat</option>
+          </select>
+        </div>
+        <div class="form-group form-group-grow">
+          <label for="field-household">Gospodarstwo</label>
+          <select id="field-household">
+            <option value="">—</option>
+            <option value="dzieci">Małe dzieci</option>
+            <option value="starsi">Osoby starsze</option>
+            <option value="niepelnosprawni">Os. z niepełnospr.</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="field-concern">Co Cię niepokoi? <span class="optional">(opcjonalnie)</span></label>
+        <textarea id="field-concern" rows="2" maxlength="300" placeholder="np. hałas nocą, drgania, bezpieczeństwo dzieci..."></textarea>
+      </div>
+    </div>
+
+    <div class="version-control">
+      <span id="version-display">Wersja 1</span>
+      <button class="version-btn" onclick="nextVersion()">Inna wersja pisma</button>
+      <div class="hint">Każda wersja ma inny dobór sformułowań i kolejność wniosków.</div>
+    </div>
+
     <button class="cta-btn" onclick="generatePDF()">
       Dalej <span class="gold">&rarr;</span>
     </button>

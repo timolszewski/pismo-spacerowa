@@ -15,6 +15,96 @@ const PDF_FIELDS = {
 
 let generatedPdfBytes = null;
 let currentStep = 1;
+let letterVersion = 1;
+const TOTAL_BODY_VARIANTS = 50;
+
+// ============================================
+// SEED & PRNG — deterministic variant selection
+// ============================================
+function generateSeed(name, building, apt, version) {
+  const str = (name + '|' + building + '|' + apt + '|' + version).toLowerCase();
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = ((hash << 5) - hash + str.charCodeAt(i)) | 0;
+  }
+  return Math.abs(hash);
+}
+
+function seededRandom(seed) {
+  let s = seed | 0;
+  return function() {
+    s = (s * 1664525 + 1013904223) | 0;
+    return (s >>> 0) / 4294967296;
+  };
+}
+
+function shuffleArray(arr, rng) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// ============================================
+// PROFILE — personal paragraph generation
+// ============================================
+function collectProfile() {
+  const floor = document.getElementById('field-floor')?.value || '';
+  const side = document.getElementById('field-side')?.value || '';
+  const years = document.getElementById('field-years')?.value || '';
+  const household = document.getElementById('field-household')?.value || '';
+  const concern = document.getElementById('field-concern')?.value.trim() || '';
+  return { floor, side, years, household, concern };
+}
+
+function buildPersonalParagraph(profile) {
+  const parts = [];
+
+  if (profile.years) {
+    const yearsMap = { '<1': 'niecały rok', '1-3': 'od kilku lat', '3-5': 'od ponad trzech lat', '5+': 'od ponad pięciu lat' };
+    parts.push('Mieszkam w osiedlu Oliva Koncept ' + (yearsMap[profile.years] || ''));
+  }
+
+  if (profile.floor || profile.side) {
+    let loc = '';
+    if (profile.floor) {
+      const floorMap = { 'parter': 'na parterze', '1': 'na pierwszym piętrze', '2': 'na drugim piętrze', '3': 'na trzecim piętrze', '4': 'na czwartym piętrze', '5+': 'na jednym z wyższych pięter' };
+      loc = floorMap[profile.floor] || '';
+    }
+    if (profile.side) {
+      const sideMap = { 'trasa': 'od strony planowanej trasy', 'podworze': 'od strony podwórza', 'boczna': 'z oknem bocznym' };
+      loc += (loc ? ', ' : '') + (sideMap[profile.side] || '');
+    }
+    if (loc) parts.push(loc);
+  }
+
+  if (profile.household) {
+    const hhMap = {
+      'dzieci': 'W moim gospodarstwie domowym są małe dzieci, szczególnie wrażliwe na hałas i zanieczyszczenie powietrza',
+      'starsi': 'Wraz ze mną zamieszkują osoby starsze, dla których hałas i drgania stanowią szczególne zagrożenie zdrowotne',
+      'niepelnosprawni': 'W moim gospodarstwie domowym znajdują się osoby z niepełnosprawnościami, co czyni nas szczególnie narażonymi na uciążliwości związane z budową'
+    };
+    if (hhMap[profile.household]) parts.push(hhMap[profile.household]);
+  }
+
+  if (profile.concern) {
+    parts.push('Szczególnie niepokoi mnie: ' + profile.concern);
+  }
+
+  if (parts.length === 0) return '';
+
+  return parts.join('. ') + '. Planowana inwestycja bezpośrednio wpływa na moje warunki życia, dlatego składam niniejsze pismo z pełną świadomością wagi poruszanych w nim kwestii.';
+}
+
+// ============================================
+// VERSION CONTROL
+// ============================================
+function nextVersion() {
+  letterVersion++;
+  document.getElementById('version-display').textContent = 'Wersja ' + letterVersion;
+}
 
 // ============================================
 // QUIZ DATA — 20 questions, 7 categories
@@ -263,6 +353,10 @@ function updateQuizCount() {
 // QUIZ → PETITUM MAPPING
 // ============================================
 function getSelectedPetitumItems() {
+  return getSelectedPetitumItemsWithVariants(null);
+}
+
+function getSelectedPetitumItemsWithVariants(rng) {
   const excludedCodes = new Set();
   QUIZ_QUESTIONS.forEach(q => {
     if (!quizAnswers[q.id]) {
@@ -271,16 +365,66 @@ function getSelectedPetitumItems() {
   });
 
   const items = PETITUM_CONFIG.items;
-  const result = [];
+  const mandatory = [];
+  const regular = [];
 
   for (const item of items) {
     if (item.code === 'AK-16') {
       const text = buildAK16Text();
-      if (text) result.push({ code: 'AK-16', text: text });
+      if (text) regular.push({ code: 'AK-16', text: text });
       continue;
     }
-    if (excludedCodes.has(item.code)) continue;
-    result.push(item);
+    // mandatory items are never excluded
+    if (!item.mandatory && excludedCodes.has(item.code)) continue;
+
+    // Pick variant text
+    let text;
+    if (item.variants && rng) {
+      text = item.variants[Math.floor(rng() * item.variants.length)];
+    } else if (item.variants) {
+      text = item.variants[0];
+    } else {
+      text = item.text;
+    }
+
+    const entry = { code: item.code, text: text };
+    if (item.alwaysFirst) {
+      mandatory.push(entry);
+    } else {
+      regular.push(entry);
+    }
+  }
+
+  // Shuffle regular items within categories if we have an RNG
+  const shuffled = rng ? shufflePetitumItems(regular, rng) : regular;
+  return [...mandatory, ...shuffled];
+}
+
+function shufflePetitumItems(items, rng) {
+  // Group by category prefix (e.g., "AK", "FL", "BU")
+  const groups = {};
+  const order = [];
+  for (const item of items) {
+    const cat = item.code.replace(/-.*/, '');
+    if (!groups[cat]) {
+      groups[cat] = [];
+      order.push(cat);
+    }
+    groups[cat].push(item);
+  }
+
+  // Shuffle within each category
+  for (const cat of order) {
+    groups[cat] = shuffleArray(groups[cat], rng);
+  }
+
+  // Shuffle the category order itself
+  const shuffledOrder = shuffleArray(order, rng);
+
+  // Flatten
+  const result = [];
+  for (const cat of shuffledOrder) {
+    result.push(...groups[cat]);
   }
   return result;
 }
@@ -361,17 +505,22 @@ function validateForm() {
 async function generatePDF() {
   if (!validateForm()) return;
 
-  const selectedItems = getSelectedPetitumItems();
+  const name = document.getElementById('field-name').value.trim();
+  const building = document.getElementById('field-building').value.trim().toUpperCase();
+  const apt = document.getElementById('field-apt').value.trim();
+
+  // Generate deterministic seed from personal data + version
+  const seed = generateSeed(name, building, apt, letterVersion);
+  const rng = seededRandom(seed);
+
+  const selectedItems = getSelectedPetitumItemsWithVariants(rng);
   const loadingMsg = document.getElementById('loading-msg');
   if (loadingMsg) {
-    loadingMsg.innerHTML = 'Trwa składanie dokumentu z <strong>' + selectedItems.length + '</strong> wnioskami formalnymi.';
+    loadingMsg.innerHTML = 'Trwa składanie dokumentu z <strong>' + selectedItems.length + '</strong> wnioskami formalnymi (wersja ' + letterVersion + ').';
   }
 
   showStep(4);
 
-  const name = document.getElementById('field-name').value.trim();
-  const building = document.getElementById('field-building').value.trim().toUpperCase();
-  const apt = document.getElementById('field-apt').value.trim();
   const address = buildAddress();
   const kw = document.getElementById('field-kw').value.trim();
   const pesel = document.getElementById('field-pesel').value.trim();
@@ -381,42 +530,59 @@ async function generatePDF() {
     day: 'numeric', month: 'long', year: 'numeric'
   });
 
+  // Pick variant body PDF (1 of 50)
+  const variantNum = (seed % TOTAL_BODY_VARIANTS) + 1;
+  const variantUrl = 'variants/body-' + String(variantNum).padStart(3, '0') + '.pdf';
+
   try {
-    {
-      const templateBytes = await fetch('szablon.pdf').then(r => r.arrayBuffer());
-      const srcDoc = await PDFLib.PDFDocument.load(templateBytes);
+    // Load body variant + original template (for closing pages)
+    const [bodyBytes, templateBytes, fontRegBytes, fontBoldBytes] = await Promise.all([
+      fetch(variantUrl).then(r => r.arrayBuffer()),
+      fetch('szablon.pdf').then(r => r.arrayBuffer()),
+      fetch('LiberationSerif-Regular.ttf').then(r => r.arrayBuffer()),
+      fetch('LiberationSerif-Bold.ttf').then(r => r.arrayBuffer()),
+    ]);
 
-      const finalDoc = await PDFLib.PDFDocument.create();
-      finalDoc.registerFontkit(fontkit);
+    const bodySrc = await PDFLib.PDFDocument.load(bodyBytes);
+    const templateSrc = await PDFLib.PDFDocument.load(templateBytes);
 
-      const fontRegBytes = await fetch('LiberationSerif-Regular.ttf').then(r => r.arrayBuffer());
-      const fontBoldBytes = await fetch('LiberationSerif-Bold.ttf').then(r => r.arrayBuffer());
-      const fontReg = await finalDoc.embedFont(fontRegBytes);
-      const fontBold = await finalDoc.embedFont(fontBoldBytes);
+    const finalDoc = await PDFLib.PDFDocument.create();
+    finalDoc.registerFontkit(fontkit);
 
-      const petStart = PETITUM_CONFIG.petitumStartPage - 1;
-      const closingStart = PETITUM_CONFIG.closingStartPage - 1;
-      const totalPages = PETITUM_CONFIG.totalPages;
+    const fontReg = await finalDoc.embedFont(fontRegBytes);
+    const fontBold = await finalDoc.embedFont(fontBoldBytes);
 
-      const bodyIndices = [];
-      for (let i = 0; i < petStart; i++) bodyIndices.push(i);
-      const bodyPages = await finalDoc.copyPages(srcDoc, bodyIndices);
-      bodyPages.forEach(p => finalDoc.addPage(p));
+    // 1. Copy ALL pages from variant body PDF
+    const bodyIndices = Array.from({ length: bodySrc.getPageCount() }, (_, i) => i);
+    const bodyPages = await finalDoc.copyPages(bodySrc, bodyIndices);
+    bodyPages.forEach(p => finalDoc.addPage(p));
 
-      await renderPetitumPages(finalDoc, fontReg, fontBold, selectedItems);
-
-      const closingIndices = [];
-      for (let i = closingStart; i < totalPages; i++) closingIndices.push(i);
-      const closingPages = await finalDoc.copyPages(srcDoc, closingIndices);
-      closingPages.forEach(p => finalDoc.addPage(p));
-
-      const firstPage = finalDoc.getPages()[0];
-      fillPersonalData(firstPage, fontReg, { dateStr, name, address, apt, kw, pesel });
-
-      addPageNumbers(finalDoc, fontReg);
-
-      generatedPdfBytes = await finalDoc.save();
+    // 2. Personal paragraph page (if profile filled)
+    const profile = collectProfile();
+    const personalText = buildPersonalParagraph(profile);
+    if (personalText) {
+      renderPersonalPage(finalDoc, fontReg, fontBold, personalText);
     }
+
+    // 3. Dynamic petitum
+    await renderPetitumPages(finalDoc, fontReg, fontBold, selectedItems);
+
+    // 4. Closing pages from original template
+    const closingStart = PETITUM_CONFIG.closingStartPage - 1;
+    const totalPages = PETITUM_CONFIG.totalPages;
+    const closingIndices = [];
+    for (let i = closingStart; i < totalPages; i++) closingIndices.push(i);
+    const closingPages = await finalDoc.copyPages(templateSrc, closingIndices);
+    closingPages.forEach(p => finalDoc.addPage(p));
+
+    // 5. Fill personal data on page 1
+    const firstPage = finalDoc.getPages()[0];
+    fillPersonalData(firstPage, fontReg, { dateStr, name, address, apt, kw, pesel });
+
+    // 6. Page numbers
+    addPageNumbers(finalDoc, fontReg);
+
+    generatedPdfBytes = await finalDoc.save();
 
     await new Promise(r => setTimeout(r, 800));
     showStep(5);
@@ -425,6 +591,32 @@ async function generatePDF() {
     console.error('PDF generation error:', err);
     alert('Wystąpił błąd podczas generowania PDF. Spróbuj ponownie.');
     showStep(3);
+  }
+}
+
+// ============================================
+// RENDER PERSONAL PARAGRAPH PAGE
+// ============================================
+function renderPersonalPage(pdfDoc, fontReg, fontBold, text) {
+  const PAGE_W = 595.28;
+  const PAGE_H = 841.89;
+  const ML = 85;
+  const MR = 57;
+  const MT = 71;
+  const MAX_W = PAGE_W - ML - MR;
+  const FONT_SIZE = 11;
+  const LEADING = 16;
+
+  const page = pdfDoc.addPage([PAGE_W, PAGE_H]);
+  let y = PAGE_H - MT;
+
+  page.drawText('UZASADNIENIE INDYWIDUALNE', { x: ML, y, size: 13, font: fontBold, color: PDFLib.rgb(0, 0, 0) });
+  y -= 26;
+
+  const lines = wrapText(text, fontReg, FONT_SIZE, MAX_W);
+  for (const line of lines) {
+    page.drawText(line, { x: ML, y, size: FONT_SIZE, font: fontReg, color: PDFLib.rgb(0, 0, 0) });
+    y -= LEADING;
   }
 }
 
@@ -591,7 +783,7 @@ function downloadPDF() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'Pismo-uwagi-do-KIP-Spacerowa.pdf';
+  a.download = 'Pismo-uwagi-do-KIP-Spacerowa-v' + letterVersion + '.pdf';
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);

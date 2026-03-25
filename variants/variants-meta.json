@@ -1,0 +1,755 @@
+{
+  "variants": [
+    {
+      "num": 1,
+      "seed": 42,
+      "category_order": [
+        "FL",
+        "DR",
+        "BU",
+        "FA",
+        "AD",
+        "AK",
+        "PR"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 2,
+      "seed": 12387,
+      "category_order": [
+        "AD",
+        "DR",
+        "FL",
+        "AK",
+        "PR",
+        "FA",
+        "BU"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 3,
+      "seed": 24732,
+      "category_order": [
+        "AD",
+        "AK",
+        "PR",
+        "FL",
+        "FA",
+        "DR",
+        "BU"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 4,
+      "seed": 37077,
+      "category_order": [
+        "AD",
+        "FA",
+        "FL",
+        "BU",
+        "AK",
+        "DR",
+        "PR"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 5,
+      "seed": 49422,
+      "category_order": [
+        "DR",
+        "BU",
+        "AD",
+        "AK",
+        "FA",
+        "PR",
+        "FL"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 6,
+      "seed": 61767,
+      "category_order": [
+        "PR",
+        "AD",
+        "FA",
+        "BU",
+        "DR",
+        "FL",
+        "AK"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 7,
+      "seed": 74112,
+      "category_order": [
+        "PR",
+        "FA",
+        "DR",
+        "BU",
+        "AD",
+        "FL",
+        "AK"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 8,
+      "seed": 86457,
+      "category_order": [
+        "AD",
+        "DR",
+        "PR",
+        "FL",
+        "FA",
+        "BU",
+        "AK"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 9,
+      "seed": 98802,
+      "category_order": [
+        "AD",
+        "AK",
+        "FA",
+        "DR",
+        "PR",
+        "BU",
+        "FL"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 10,
+      "seed": 111147,
+      "category_order": [
+        "AK",
+        "BU",
+        "FL",
+        "AD",
+        "DR",
+        "FA",
+        "PR"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 11,
+      "seed": 123492,
+      "category_order": [
+        "DR",
+        "BU",
+        "PR",
+        "AK",
+        "AD",
+        "FL",
+        "FA"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 12,
+      "seed": 135837,
+      "category_order": [
+        "FL",
+        "AD",
+        "PR",
+        "AK",
+        "FA",
+        "BU",
+        "DR"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 13,
+      "seed": 148182,
+      "category_order": [
+        "AK",
+        "BU",
+        "AD",
+        "FL",
+        "FA",
+        "DR",
+        "PR"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 14,
+      "seed": 160527,
+      "category_order": [
+        "BU",
+        "FL",
+        "PR",
+        "AD",
+        "FA",
+        "AK",
+        "DR"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 15,
+      "seed": 172872,
+      "category_order": [
+        "FA",
+        "DR",
+        "AD",
+        "AK",
+        "FL",
+        "PR",
+        "BU"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 16,
+      "seed": 185217,
+      "category_order": [
+        "AK",
+        "DR",
+        "PR",
+        "FL",
+        "BU",
+        "AD",
+        "FA"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 17,
+      "seed": 197562,
+      "category_order": [
+        "PR",
+        "FA",
+        "BU",
+        "FL",
+        "AK",
+        "AD",
+        "DR"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 18,
+      "seed": 209907,
+      "category_order": [
+        "FL",
+        "BU",
+        "PR",
+        "AK",
+        "DR",
+        "AD",
+        "FA"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 19,
+      "seed": 222252,
+      "category_order": [
+        "AK",
+        "FA",
+        "BU",
+        "DR",
+        "PR",
+        "AD",
+        "FL"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 20,
+      "seed": 234597,
+      "category_order": [
+        "FA",
+        "FL",
+        "PR",
+        "DR",
+        "BU",
+        "AD",
+        "AK"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 21,
+      "seed": 246942,
+      "category_order": [
+        "FL",
+        "BU",
+        "AD",
+        "DR",
+        "FA",
+        "AK",
+        "PR"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 22,
+      "seed": 259287,
+      "category_order": [
+        "AD",
+        "BU",
+        "DR",
+        "FA",
+        "AK",
+        "PR",
+        "FL"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 23,
+      "seed": 271632,
+      "category_order": [
+        "PR",
+        "BU",
+        "FA",
+        "FL",
+        "AK",
+        "DR",
+        "AD"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 24,
+      "seed": 283977,
+      "category_order": [
+        "PR",
+        "BU",
+        "DR",
+        "FL",
+        "AD",
+        "FA",
+        "AK"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 25,
+      "seed": 296322,
+      "category_order": [
+        "BU",
+        "FL",
+        "PR",
+        "FA",
+        "AD",
+        "DR",
+        "AK"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 26,
+      "seed": 308667,
+      "category_order": [
+        "BU",
+        "FA",
+        "AD",
+        "FL",
+        "AK",
+        "PR",
+        "DR"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 27,
+      "seed": 321012,
+      "category_order": [
+        "DR",
+        "FA",
+        "PR",
+        "BU",
+        "FL",
+        "AK",
+        "AD"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 28,
+      "seed": 333357,
+      "category_order": [
+        "FL",
+        "DR",
+        "FA",
+        "AK",
+        "AD",
+        "BU",
+        "PR"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 29,
+      "seed": 345702,
+      "category_order": [
+        "BU",
+        "AK",
+        "DR",
+        "PR",
+        "AD",
+        "FA",
+        "FL"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 30,
+      "seed": 358047,
+      "category_order": [
+        "AD",
+        "BU",
+        "FA",
+        "FL",
+        "AK",
+        "PR",
+        "DR"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 31,
+      "seed": 370392,
+      "category_order": [
+        "PR",
+        "BU",
+        "DR",
+        "AD",
+        "FL",
+        "AK",
+        "FA"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 32,
+      "seed": 382737,
+      "category_order": [
+        "AK",
+        "BU",
+        "PR",
+        "DR",
+        "AD",
+        "FA",
+        "FL"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 33,
+      "seed": 395082,
+      "category_order": [
+        "FL",
+        "AK",
+        "FA",
+        "DR",
+        "BU",
+        "AD",
+        "PR"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 34,
+      "seed": 407427,
+      "category_order": [
+        "AD",
+        "FA",
+        "BU",
+        "PR",
+        "DR",
+        "AK",
+        "FL"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 35,
+      "seed": 419772,
+      "category_order": [
+        "AK",
+        "FL",
+        "PR",
+        "AD",
+        "DR",
+        "FA",
+        "BU"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 36,
+      "seed": 432117,
+      "category_order": [
+        "BU",
+        "AK",
+        "PR",
+        "DR",
+        "AD",
+        "FL",
+        "FA"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 37,
+      "seed": 444462,
+      "category_order": [
+        "AD",
+        "FL",
+        "DR",
+        "AK",
+        "PR",
+        "BU",
+        "FA"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 38,
+      "seed": 456807,
+      "category_order": [
+        "AD",
+        "FL",
+        "PR",
+        "FA",
+        "BU",
+        "AK",
+        "DR"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 39,
+      "seed": 469152,
+      "category_order": [
+        "PR",
+        "AK",
+        "BU",
+        "AD",
+        "FL",
+        "FA",
+        "DR"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 40,
+      "seed": 481497,
+      "category_order": [
+        "PR",
+        "FA",
+        "AK",
+        "FL",
+        "AD",
+        "DR",
+        "BU"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 41,
+      "seed": 493842,
+      "category_order": [
+        "PR",
+        "FA",
+        "DR",
+        "BU",
+        "FL",
+        "AK",
+        "AD"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 42,
+      "seed": 506187,
+      "category_order": [
+        "BU",
+        "AD",
+        "FA",
+        "DR",
+        "PR",
+        "AK",
+        "FL"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 43,
+      "seed": 518532,
+      "category_order": [
+        "FA",
+        "PR",
+        "FL",
+        "BU",
+        "DR",
+        "AK",
+        "AD"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 44,
+      "seed": 530877,
+      "category_order": [
+        "AD",
+        "FL",
+        "FA",
+        "AK",
+        "PR",
+        "BU",
+        "DR"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 45,
+      "seed": 543222,
+      "category_order": [
+        "AD",
+        "DR",
+        "PR",
+        "BU",
+        "FL",
+        "FA",
+        "AK"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 46,
+      "seed": 555567,
+      "category_order": [
+        "DR",
+        "AK",
+        "FA",
+        "PR",
+        "FL",
+        "BU",
+        "AD"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 47,
+      "seed": 567912,
+      "category_order": [
+        "DR",
+        "FA",
+        "FL",
+        "AD",
+        "PR",
+        "AK",
+        "BU"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 48,
+      "seed": 580257,
+      "category_order": [
+        "FA",
+        "FL",
+        "BU",
+        "DR",
+        "AD",
+        "PR",
+        "AK"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 49,
+      "seed": 592602,
+      "category_order": [
+        "FA",
+        "BU",
+        "PR",
+        "AD",
+        "DR",
+        "FL",
+        "AK"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    },
+    {
+      "num": 50,
+      "seed": 604947,
+      "category_order": [
+        "FA",
+        "DR",
+        "PR",
+        "FL",
+        "AD",
+        "AK",
+        "BU"
+      ],
+      "pages": 95,
+      "size_kb": 2249
+    }
+  ],
+  "total": 50
+}
