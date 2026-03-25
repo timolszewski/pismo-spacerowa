@@ -695,9 +695,56 @@ function getSelectedPetitumItemsWithVariants(rng) {
     }
   }
 
+  // Random thinning: each letter drops 0-25% of regular items (per category)
+  // This creates natural variation in letter length across residents.
+  // Quiz-excluded items are already removed above — this is ADDITIONAL random reduction.
+  const thinned = rng ? thinItemsPerCategory(regular, rng) : regular;
+
   // Shuffle regular items within categories if we have an RNG
-  const shuffled = rng ? shufflePetitumItems(regular, rng) : regular;
+  const shuffled = rng ? shufflePetitumItems(thinned, rng) : thinned;
   return [...mandatory, ...shuffled];
+}
+
+function thinItemsPerCategory(items, rng) {
+  // Decide overall drop rate for this letter: 0% to 25%
+  const dropRate = rng() * 0.25;
+  if (dropRate < 0.03) return items; // ~12% of letters keep everything
+
+  // Group by category
+  const groups = {};
+  const order = [];
+  for (const item of items) {
+    const cat = item.code.replace(/-.*/, '');
+    if (!groups[cat]) { groups[cat] = []; order.push(cat); }
+    groups[cat].push(item);
+  }
+
+  const result = [];
+  for (const cat of order) {
+    const catItems = groups[cat];
+    // Always keep at least 60% of each category (so no category is gutted)
+    const minKeep = Math.max(1, Math.ceil(catItems.length * 0.6));
+    const dropCount = Math.min(
+      catItems.length - minKeep,
+      Math.floor(catItems.length * dropRate)
+    );
+    if (dropCount <= 0) {
+      result.push(...catItems);
+      continue;
+    }
+    // Pick random indices to drop
+    const indices = Array.from({ length: catItems.length }, (_, i) => i);
+    // Fisher-Yates to pick dropCount indices
+    for (let i = indices.length - 1; i > 0; i--) {
+      const j = Math.floor(rng() * (i + 1));
+      const tmp = indices[i]; indices[i] = indices[j]; indices[j] = tmp;
+    }
+    const dropSet = new Set(indices.slice(0, dropCount));
+    for (let i = 0; i < catItems.length; i++) {
+      if (!dropSet.has(i)) result.push(catItems[i]);
+    }
+  }
+  return result;
 }
 
 function shufflePetitumItems(items, rng) {
