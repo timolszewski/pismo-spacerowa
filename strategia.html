@@ -316,6 +316,50 @@ body {
 .tl-content .date { font-size: 0.72rem; color: var(--gray-400); font-weight: 600; }
 .tl-content p { font-size: 0.8rem; color: var(--gray-600); margin-top: 2px; }
 
+/* Critical decision gate in timeline */
+.tl-gate {
+  position: relative;
+  margin: 8px 0 8px 0;
+  padding: 14px 16px 14px 54px;
+  background: var(--red-50);
+  border: 2px solid var(--red);
+  border-radius: 10px;
+}
+.tl-gate::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  top: -2px;
+  height: 3px;
+  background: var(--red);
+}
+.tl-gate .tl-gate-label {
+  font-size: 0.6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--red);
+  margin-bottom: 4px;
+}
+.tl-gate h4 { font-size: 0.95rem; font-weight: 800; color: var(--red); margin-bottom: 4px; }
+.tl-gate p { font-size: 0.8rem; color: var(--gray-700); }
+.tl-gate .tl-gate-paths {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+@media (max-width: 500px) { .tl-gate .tl-gate-paths { grid-template-columns: 1fr; } }
+.tl-gate .path {
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+.tl-gate .path.good { background: var(--green-100); color: var(--green); }
+.tl-gate .path.bad { background: var(--red-100); color: var(--red); }
+.tl-gate .path strong { display: block; margin-bottom: 2px; }
+
 /* ============ SCENARIO CARDS ============ */
 .scenario {
   border-radius: 12px;
@@ -470,7 +514,7 @@ body {
   <h3>Czego żądamy?</h3>
   <p>Nie jesteśmy przeciwni buspasom jako idei. <strong>Jesteśmy jednak zdecydowanie przeciwko tej konkretnej inwestycji w obecnym kształcie.</strong> Buspas w ul. Spacerowej nie poprawi przepustowości drogi, a jednocześnie spowoduje masową wycinkę drzew, utrudni ruch na co najmniej 2 lata, pogorszy warunki życia mieszkańców i wartość nieruchomości, a krajobraz Oliwy zostanie trwale oszpecony ekranami akustycznymi i betonową infrastrukturą. Konkretnie żądamy:</p>
   <ul>
-    <li><strong>Przeprowadzenia pełnego Raportu OOŚ</strong> (zamiast uproszczonej oceny na podstawie KIP)</li>
+    <li><strong style="color:var(--red);">Przeprowadzenia pełnego Raportu OOŚ</strong> — to nasz cel nr 1 i warunek konieczny do jakichkolwiek dalszych działań. Bez OOŚ nie będzie konsultacji publicznych, nie będzie Raportu do zakwestionowania, nie będzie podstaw do narzucenia warunków ochrony</li>
     <li><strong>Jeśli ekrany — to estetyczne i transparentne:</strong> klasa min. A4/B4, transparentne panele na odcinkach przy zabudowie (zachowanie nasłonecznienia i estetyki). Najlepiej — żeby w ogóle nie było nowych ekranów akustycznych szpecących krajobraz</li>
     <li>Dokumentacja stanu budynków przed budową ("stan zero")</li>
     <li>Kompensacja przyrodnicza za wycinkę 560 drzew i zniszczenie siedlisk Natura 2000</li>
@@ -661,12 +705,13 @@ body {
 
   <h3>Nasze stanowisko strategiczne</h3>
 
-  <div class="callout red" style="color: var(--navy); border-color: var(--gold); background: var(--gold-50);">
-    <strong style="font-size: 1.05rem;">Żądamy przeprowadzenia pełnego procesu Oceny Środowiskowej</strong>
-    Wymuszenie pełnego Raportu OOŚ daje nam <strong>dodatkowy rok</strong> na podejmowanie działań i budowanie nowych punktów nacisku na Urząd Miasta. Inwestor będzie musiał przeprowadzić całoroczną inwentaryzację przyrodniczą, pełne modelowanie akustyczne i wibracyjne, a potem odbędą się 30-dniowe konsultacje publiczne — kolejna okazja do złożenia uwag.
+  <div class="callout red" style="color: var(--navy); border-color: var(--red); background: var(--red-50);">
+    <strong style="font-size: 1.1rem; color: var(--red);">Wymuszenie OOŚ = absolutny priorytet</strong>
+    <p style="margin:6px 0 0;color:var(--gray-700);">Bez pełnej Oceny Oddziaływania na Środowisko <strong>nie mamy żadnych realnych narzędzi wpływu</strong> na kształt inwestycji. Nie będzie Raportu, do którego moglibyśmy się odnieść. Nie będzie konsultacji publicznych. Nie będzie podstaw do narzucenia warunków ochrony. Zostaniemy postawieni przed faktem dokonanym.</p>
+    <p style="margin:8px 0 0;color:var(--gray-700);">OOŚ daje nam <strong>dodatkowy rok</strong>: inwestor musi przeprowadzić całoroczną inwentaryzację, pełne modelowanie, a potem odbędą się 30-dniowe konsultacje publiczne. Dopiero wtedy otwierają się realne możliwości: stanowisko do Raportu, żądanie warunków, zaskarżanie decyzji z konkretnymi argumentami.</p>
   </div>
 
-  <p>Naszym zadaniem jest upewnić się, że opinie organów (szczególnie RDOŚ) będą jednoznaczne: <strong>OOŚ jest konieczna</strong>. Mamy dwa główne punkty nacisku na Prezydenta Miasta:</p>
+  <p>Naszym zadaniem jest upewnić się, że opinie organów (szczególnie RDOŚ) będą jednoznaczne: <strong>OOŚ jest konieczna</strong>. Wszystkie obecne działania służą temu jednemu celowi. Mamy dwa główne punkty nacisku:</p>
   <ol>
     <li><strong>Indywidualne pisma mieszkańców</strong> — z uwagami merytorycznymi i wnioskami formalnymi do KIP. Im więcej pism, tym trudniej Prezydentowi uzasadnić pominięcie pełnej oceny.</li>
     <li><strong>Presja ze strony organizacji ekologicznych i mediów</strong> — organizacje mają uprawnienia strony postępowania (art. 44 ustawy OOŚ), a zainteresowanie mediów zwiększa polityczny koszt zignorowania argumentów środowiskowych.</li>
@@ -737,36 +782,53 @@ body {
         <p>RDOŚ, Sanepid i Wody Polskie wydają opinie ws. konieczności pełnej OOŚ. <strong>Opinia RDOŚ jest wiążąca</strong> (bliskość Natura 2000). Nasz nacisk — przez pisma, org. eko i media — ma wpłynąć na treść tych opinii.</p>
       </div>
     </div>
+    <!-- ====== CRITICAL GATE ====== -->
+    <div class="tl-gate">
+      <div class="tl-gate-label">Kluczowy moment decyzyjny</div>
+      <h4>Postanowienie Prezydenta: czy wymagany jest Raport OOŚ?</h4>
+      <p>To jest moment, o który walczymy. Prezydent na podstawie opinii organów i pism mieszkańców wydaje postanowienie screeningowe. <strong>Od tej decyzji zależy wszystko</strong> — czy będziemy mieli realny wpływ na kształt inwestycji, czy zostaniemy postawieni przed faktem dokonanym.</p>
+      <div class="tl-gate-paths">
+        <div class="path good">
+          <strong>OOŚ nakazana &rarr;</strong>
+          Otwiera się rok działań: Raport, konsultacje publiczne, stanowisko do raportu, warunki w decyzji. Mamy realne narzędzia prawne.
+        </div>
+        <div class="path bad">
+          <strong>Brak OOŚ &rarr;</strong>
+          7 dni na zażalenie do SKO. Brak konsultacji, brak Raportu, brak warunków. Pozostaje ścieżka sądowa (miesiące/lata) bez gwarancji wyniku.
+        </div>
+      </div>
+    </div>
+
     <div class="tl-item">
       <div class="tl-dot future">6</div>
       <div class="tl-content">
-        <div class="date">Kwiecień–maj 2026</div>
-        <h4>Prezydent Miasta analizuje KIP + opinie + uwagi mieszkańców</h4>
-        <p>Na podstawie opinii organów i pism mieszkańców Prezydent wydaje postanowienie screeningowe. Dwa wyniki: (A) nakazuje pełny Raport OOŚ — inwestor musi go przygotować (6–12 mies.). (B) uznaje KIP za wystarczającą — mamy 7 dni na zażalenie do SKO.</p>
+        <div class="date" style="color:var(--green);font-weight:700;">Tylko jeśli OOŚ nakazana: +6–12 mies.</div>
+        <h4>Przygotowanie Raportu OOŚ</h4>
+        <p>Inwestor musi zlecić pełną ocenę oddziaływania na środowisko — z całoroczną inwentaryzacją przyrodniczą, pełnym modelowaniem akustycznym, analizą wibracji. <strong>To nam daje dodatkowy rok.</strong></p>
       </div>
     </div>
     <div class="tl-item">
       <div class="tl-dot future">7</div>
       <div class="tl-content">
-        <div class="date">Jeśli Raport OOŚ wymagany: +6–12 mies.</div>
-        <h4>Przygotowanie Raportu OOŚ</h4>
-        <p>Inwestor musi zlecić pełną ocenę oddziaływania na środowisko — z całoroczną inwentaryzacją przyrodniczą, pełnym modelowaniem akustycznym, analizą wibracji.</p>
+        <div class="date" style="color:var(--green);font-weight:700;">Tylko jeśli OOŚ: po Raporcie, 30 dni</div>
+        <h4>Konsultacje publiczne</h4>
+        <p><strong>30 dni</strong> na zgłaszanie uwag przez społeczeństwo do gotowego Raportu OOŚ. Nasza główna szansa na formalne stanowisko merytoryczne — z prawnikiem, akustykiem, przyrodnikiem. <strong>Bez OOŚ — ten etap NIE istnieje.</strong></p>
       </div>
     </div>
     <div class="tl-item">
       <div class="tl-dot future">8</div>
       <div class="tl-content">
-        <div class="date">Po Raporcie OOŚ: 30 dni</div>
-        <h4>Konsultacje publiczne</h4>
-        <p><strong>30 dni</strong> na zgłaszanie uwag przez społeczeństwo. To nasza druga szansa na formalne stanowisko. Uwaga: jeśli organ nie nakaże Raportu — etap ten NIE występuje.</p>
+        <div class="date" style="color:var(--green);font-weight:700;">Tylko jeśli OOŚ: po konsultacjach</div>
+        <h4>Nasze stanowisko do Raportu OOŚ</h4>
+        <p>Punkt po punkcie odnosimy się do treści Raportu — żądamy wyższych standardów ochrony akustycznej, kompensacji przyrodniczej, monitoringu. <strong>Bez OOŚ — nie mamy czego kwestionować.</strong></p>
       </div>
     </div>
     <div class="tl-item">
       <div class="tl-dot future">9</div>
       <div class="tl-content">
-        <div class="date">Po konsultacjach</div>
+        <div class="date">Po konsultacjach / po screeningu (zależy od ścieżki)</div>
         <h4>Decyzja środowiskowa</h4>
-        <p>Prezydent Miasta określa warunki realizacji (ekrany, kompensacja, monitoring) na podstawie uzgodnienia z RDOŚ. Decyzja zaskarżalna do SKO (14 dni), potem WSA (30 dni).</p>
+        <p>Prezydent Miasta określa warunki realizacji. <strong>Z OOŚ</strong>: warunki oparte na Raporcie i naszych uwagach (ekrany, kompensacja, monitoring), uzgodnienie z RDOŚ, zaskarżalna do SKO (14 dni) → WSA (30 dni). <strong>Bez OOŚ</strong>: warunki minimalne, bez podstaw do wymuszenia realnej ochrony.</p>
       </div>
     </div>
     <div class="tl-item">
@@ -822,19 +884,32 @@ body {
   <div class="scenario worst">
     <span class="tag">Najgorszy scenariusz &middot; ~20%</span>
     <h4>Scenariusz C: Organ nie wymaga Raportu OOŚ</h4>
+    <p>Prezydent uznaje KIP za wystarczającą i wydaje decyzję screeningową o braku potrzeby Raportu. <strong>To oznacza utratę praktycznie wszystkich narzędzi wpływu:</strong></p>
     <ul>
-      <li>Decyzja screeningowa pozwala na procedowanie inwestycji na podstawie samej KIP</li>
-      <li>Brak obowiązkowych konsultacji publicznych (30 dni)</li>
-      <li>Mamy <strong>tylko 7 dni</strong> na zaskarżenie decyzji do SKO</li>
-      <li>Szybka ścieżka do ZRID — budowa może rozpocząć się w ciągu 6–8 miesięcy</li>
-      <li>Mitygacja minimalna — bez pełnego Raportu brak podstaw do narzucenia warunków</li>
+      <li><strong>Brak konsultacji publicznych</strong> — 30-dniowe konsultacje odbywają się WYŁĄCZNIE po Raporcie OOŚ. Bez niego nie mamy formalnego prawa do odniesienia się do dokumentacji</li>
+      <li><strong>Brak Raportu = brak podstaw do warunków</strong> — organ nie ma na czym oprzeć wymagań dotyczących ekranów, kompensacji, monitoringu. Decyzja środowiskowa będzie zawierać warunki minimalne</li>
+      <li><strong>Brak stanowiska merytorycznego</strong> — nie ma dokumentu, do którego moglibyśmy się odnieść punkt po punkcie. Nasze uwagi do KIP zostają bez odpowiedzi</li>
+      <li><strong>7 dni na zażalenie do SKO</strong> — jedyny środek prawny. Zażalenie musi być gotowe Z WYPRZEDZENIEM, bo 7 dni to za mało na przygotowanie od zera</li>
+      <li><strong>Szybka ścieżka do budowy</strong> — decyzja środowiskowa → ZRID → budowa może ruszyć w ciągu 6–8 miesięcy</li>
     </ul>
-    <p><strong>Dla nas:</strong> Najgorszy wariant. Tracimy główną dźwignię prawną. Pozostają nam: odwołanie do SKO → WSA → NSA (miesiące/lata) + indywidualne roszczenia odszkodowawcze (art. 129 POŚ, art. 435 KC).</p>
+    <p style="margin-top:10px;"><strong>Co nam zostaje bez OOŚ?</strong></p>
+    <ul>
+      <li><strong>Zażalenie do SKO</strong> (7 dni) → odwołanie do WSA (30 dni) → kasacja do NSA — ale to miesiące, a nawet lata. Sądy administracyjne mogą wstrzymać wykonanie decyzji, ale nie muszą</li>
+      <li><strong>Skarga do Komisji Europejskiej</strong> za naruszenie art. 6 ust. 3 Dyrektywy Siedliskowej (50 m od SOO bez oceny) — ale KE reaguje w skali lat, nie miesięcy</li>
+      <li><strong>Roszczenia odszkodowawcze</strong> (art. 129 POŚ, art. 435 KC) — ale to dopiero PO wybudowaniu i udowodnieniu szkody. Proces cywilny trwa lata</li>
+      <li><strong>Nacisk polityczny/medialny</strong> — ale bez dokumentacji (Raportu) trudno budować przekonujące argumenty merytoryczne</li>
+    </ul>
+    <p style="margin-top:10px;"><strong>Dla nas:</strong> Najgorszy wariant. Tracimy główną dźwignię prawną. Dlatego wymuszenie OOŚ jest <strong>absolutnym priorytetem</strong> — wszystkie nasze obecne działania służą właśnie temu celowi.</p>
   </div>
 
   <div class="callout gold">
     <strong>Dlaczego scenariusz A jest najbardziej prawdopodobny?</strong>
     Organ nie może łatwo zignorować (a RDOŚ w swojej opinii podniesie): (1) sprzeczność wewnętrzną KIP dotyczącą Natura 2000, (2) brak oceny z art. 6 Dyrektywy Siedliskowej, (3) niekompletną inwentaryzację faunistyczną. Każdy z tych punktów indywidualnie uzasadnia nakaz pełnego Raportu. Razem stanowią mocny argument.
+  </div>
+
+  <div class="callout red">
+    <strong>Kluczowe: scenariusze B (modyfikacja/wstrzymanie) i C (brak Raportu) różnią się diametralnie</strong>
+    Scenariusz B jest możliwy TYLKO po przeprowadzeniu OOŚ — dopiero Raport ujawnia skalę problemów i daje podstawy do restrykcyjnych warunków. Scenariusz C oznacza, że nie mamy praktycznie żadnych narzędzi poza wieloletnią ścieżką sądową. Dlatego wymuszenie OOŚ jest jedyną sensowną strategią.
   </div>
 </div>
 
