@@ -7,6 +7,8 @@
 <link rel="stylesheet" href="style.css">
 <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 <script src="https://unpkg.com/@pdf-lib/fontkit@1.1.1/dist/fontkit.umd.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 </head>
 <body>
 
@@ -38,6 +40,15 @@
     <strong>Karta Informacyjna Przedsięwzięcia pomija nasze osiedle</strong> w analizach i nie przewiduje
     żadnych zabezpieczeń dla mieszkańców.</p>
     <a href="strategia.html" class="hero-link">O co chodzi? &mdash; pełna strategia &rarr;</a>
+  </div>
+
+  <!-- COUNTER -->
+  <div class="counter-bar" id="counter-bar" style="display:none;">
+    <div class="counter-inner">
+      <div class="counter-number" id="counter-number">0</div>
+      <div class="counter-label">pism już wygenerowanych</div>
+    </div>
+    <div class="counter-hint">Każde pismo to dodatkowy głos. Dołącz do sąsiadów.</div>
   </div>
 
   <!-- FACTS -->

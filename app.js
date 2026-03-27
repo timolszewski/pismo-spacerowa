@@ -19,6 +19,54 @@ let letterVersion = 1;
 const TOTAL_BODY_VARIANTS = 50;
 
 // ============================================
+// FIREBASE COUNTER
+// ============================================
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyBnjKT7MizMuxZXuXABHBqCyh3cZ7bjNV8",
+  authDomain: "pismo-spacerowa.firebaseapp.com",
+  databaseURL: "https://pismo-spacerowa-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "pismo-spacerowa",
+  storageBucket: "pismo-spacerowa.firebasestorage.app",
+  messagingSenderId: "590513630307",
+  appId: "1:590513630307:web:42882f465cdb8e3502dc56"
+};
+
+let counterRef = null;
+
+function initCounter() {
+  try {
+    if (typeof firebase === 'undefined') return;
+    firebase.initializeApp(FIREBASE_CONFIG);
+    counterRef = firebase.database().ref('counter/generated');
+
+    // Listen for real-time updates
+    counterRef.on('value', (snapshot) => {
+      const count = snapshot.val() || 0;
+      const el = document.getElementById('counter-number');
+      const bar = document.getElementById('counter-bar');
+      if (el) {
+        el.textContent = count;
+        if (bar) bar.style.display = '';
+      }
+    });
+  } catch (e) {
+    console.warn('Counter unavailable:', e.message);
+  }
+}
+
+function incrementCounter() {
+  if (!counterRef) return;
+  counterRef.transaction((current) => (current || 0) + 1);
+}
+
+// Init when DOM ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initCounter);
+} else {
+  initCounter();
+}
+
+// ============================================
 // SEED & PRNG — deterministic variant selection
 // ============================================
 function generateSeed(name, building, apt, version) {
@@ -947,6 +995,7 @@ async function generatePDF() {
     addPageNumbers(finalDoc, fontReg);
 
     generatedPdfBytes = await finalDoc.save();
+    incrementCounter();
 
     await new Promise(r => setTimeout(r, 800));
     showStep(5);
