@@ -32,14 +32,16 @@ const FIREBASE_CONFIG = {
 };
 
 let counterRef = null;
+let requestsRef = null;
+const REQUESTS_GOAL = 2000;
 
 function initCounter() {
   try {
     if (typeof firebase === 'undefined') return;
     firebase.initializeApp(FIREBASE_CONFIG);
     counterRef = firebase.database().ref('counter/generated');
+    requestsRef = firebase.database().ref('counter/requests');
 
-    // Listen for real-time updates
     counterRef.on('value', (snapshot) => {
       const count = snapshot.val() || 0;
       const el = document.getElementById('counter-number');
@@ -49,14 +51,48 @@ function initCounter() {
         if (bar) bar.style.display = '';
       }
     });
+
+    requestsRef.on('value', (snapshot) => {
+      const requests = snapshot.val() || 0;
+      updateRequestsUI(requests);
+    });
   } catch (e) {
     console.warn('Counter unavailable:', e.message);
   }
 }
 
-function incrementCounter() {
-  if (!counterRef) return;
-  counterRef.transaction((current) => (current || 0) + 1);
+function updateRequestsUI(requests) {
+  const el = document.getElementById('requests-number');
+  if (el) el.textContent = requests;
+
+  const pct = Math.min(100, Math.round((requests / REQUESTS_GOAL) * 100));
+  const pctEl = document.getElementById('progress-pct');
+  const fillEl = document.getElementById('progress-fill');
+  if (pctEl) pctEl.textContent = pct + '%';
+  if (fillEl) fillEl.style.width = pct + '%';
+
+  const est = document.getElementById('workload-estimate');
+  if (est && requests > 0) {
+    const hours = requests;
+    if (hours < 24) {
+      est.textContent = 'Rozpatrzenie ' + requests + ' wniosków zajmie Urzędowi ok. ' + hours + ' godzin pracy.';
+    } else {
+      const days = Math.round(hours / 8);
+      if (days < 10) {
+        est.textContent = 'Rozpatrzenie ' + requests + ' wniosków zajmie Urzędowi ok. ' + days + ' dni roboczych.';
+      } else {
+        const weeks = Math.round(days / 5);
+        est.textContent = 'Rozpatrzenie ' + requests + ' wniosków zajmie Urzędowi ok. ' + weeks + ' tygodni roboczych (' + days + ' dni).';
+      }
+    }
+  }
+}
+
+function incrementCounter(requestCount) {
+  if (counterRef) counterRef.transaction((c) => (c || 0) + 1);
+  if (requestsRef && requestCount > 0) {
+    requestsRef.transaction((c) => (c || 0) + requestCount);
+  }
 }
 
 // Init when DOM ready
@@ -995,7 +1031,7 @@ async function generatePDF() {
     addPageNumbers(finalDoc, fontReg);
 
     generatedPdfBytes = await finalDoc.save();
-    incrementCounter();
+    incrementCounter(personalizedItems.length);
 
     await new Promise(r => setTimeout(r, 800));
     showStep(5);

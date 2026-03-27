@@ -44,9 +44,32 @@
 
   <!-- COUNTER -->
   <div class="counter-bar" id="counter-bar" style="display:none;">
-    <div class="counter-inner">
-      <div class="counter-number" id="counter-number">0</div>
-      <div class="counter-label">pism już wygenerowanych</div>
+    <div class="counter-row">
+      <div class="counter-stat">
+        <div class="counter-number" id="counter-number">0</div>
+        <div class="counter-label">pism</div>
+      </div>
+      <div class="counter-divider"></div>
+      <div class="counter-stat">
+        <div class="counter-number" id="requests-number">0</div>
+        <div class="counter-label">wniosków formalnych</div>
+      </div>
+    </div>
+
+    <div class="progress-section">
+      <div class="progress-header">
+        <span class="progress-title">Poziom zalania Urzędu wnioskami</span>
+        <span class="progress-pct" id="progress-pct">0%</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+      </div>
+      <div class="progress-goal">Cel: <strong>2 000</strong> wniosków</div>
+    </div>
+
+    <div class="counter-info">
+      <strong>Każdy wniosek musi zostać indywidualnie rozpatrzony przez Urząd!</strong>
+      <span id="workload-estimate"></span>
     </div>
     <div class="counter-hint">Każde pismo to dodatkowy głos. Dołącz do sąsiadów.</div>
   </div>
