@@ -381,6 +381,33 @@ body {
 }
 .cta-btn.secondary:hover { background: var(--navy-50); }
 
+.back-home-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 20px auto 0;
+  padding: 10px 20px;
+  background: none;
+  border: 1.5px solid var(--gray-200);
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--gray-400);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.back-home-btn:hover {
+  color: var(--navy);
+  border-color: var(--navy);
+}
+.back-home-btn svg {
+  width: 16px; height: 16px;
+  stroke: currentColor; stroke-width: 2;
+  fill: none; stroke-linecap: round; stroke-linejoin: round;
+}
+
 /* ============================================
    FORM
    ============================================ */
