@@ -33,7 +33,7 @@ const FIREBASE_CONFIG = {
 
 let counterRef = null;
 let requestsRef = null;
-const REQUESTS_GOAL = 2000;
+const LETTERS_GOAL = 50;
 
 function initCounter() {
   try {
@@ -50,6 +50,7 @@ function initCounter() {
         el.textContent = count;
         if (bar) bar.style.display = '';
       }
+      updateProgressBar(count);
     });
 
     requestsRef.on('value', (snapshot) => {
@@ -61,15 +62,17 @@ function initCounter() {
   }
 }
 
-function updateRequestsUI(requests) {
-  const el = document.getElementById('requests-number');
-  if (el) el.textContent = requests;
-
-  const pct = Math.min(100, Math.round((requests / REQUESTS_GOAL) * 100));
+function updateProgressBar(letters) {
+  const pct = Math.min(100, Math.round((letters / LETTERS_GOAL) * 100));
   const pctEl = document.getElementById('progress-pct');
   const fillEl = document.getElementById('progress-fill');
   if (pctEl) pctEl.textContent = pct + '%';
   if (fillEl) fillEl.style.width = pct + '%';
+}
+
+function updateRequestsUI(requests) {
+  const el = document.getElementById('requests-number');
+  if (el) el.textContent = requests;
 
   const est = document.getElementById('workload-estimate');
   if (est && requests > 0) {
