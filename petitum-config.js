@@ -675,16 +675,6 @@ const PETITUM_CONFIG = {
       ]
     },
     {
-      "code": "PR-1",
-      "variants": [
-        "Przeprowadzenie pełnych konsultacji społecznych z mieszkańcami osiedli położonych w strefie oddziaływania inwestycji, obejmujących spotkanie informacyjne, wyłożenie dokumentacji, możliwość składania uwag pisemnych i ustnych do protokołu, oraz -- w razie wniosku -- rozprawę administracyjną (art. 33 ust. 1 i art. 36 ustawy OOŚ w zw. z art. 6 Konwencji z Aarhus).",
-        "Zobowiązanie inwestora do przeprowadzenia pełnych konsultacji społecznych z mieszkańcami osiedli położonych w strefie oddziaływania inwestycji, obejmujących spotkanie informacyjne, wyłożenie dokumentacji, możliwość składania uwag pisemnych i ustnych do protokołu, oraz -- w razie wniosku -- rozprawę administracyjną (art. 33 ust. 1 i art. 36 ustawy OOŚ w zw. z art. 6 Konwencji z Aarhus).",
-        "Nałożenie na inwestora obowiązku przeprowadzenia pełnych konsultacji społecznych z mieszkańcami osiedli położonych w strefie oddziaływania inwestycji, obejmujących spotkanie informacyjne, wyłożenie dokumentacji, możliwość składania uwag pisemnych i ustnych do protokołu, oraz -- w razie wniosku -- rozprawę administracyjną (art. 33 ust. 1 i art. 36 ustawy OOŚ w zw. z art. 6 Konwencji z Aarhus).",
-        "Nakazanie inwestorowi przeprowadzenia pełnych konsultacji społecznych z mieszkańcami osiedli położonych w strefie oddziaływania inwestycji, obejmujących spotkanie informacyjne, wyłożenie dokumentacji, możliwość składania uwag pisemnych i ustnych do protokołu, oraz -- w razie wniosku -- rozprawę administracyjną (art. 33 ust. 1 i art. 36 ustawy OOŚ w zw. z art. 6 Konwencji z Aarhus).",
-        "Wymaganie od inwestora przeprowadzenia pełnych konsultacji społecznych z mieszkańcami osiedli położonych w strefie oddziaływania inwestycji, obejmujących spotkanie informacyjne, wyłożenie dokumentacji, możliwość składania uwag pisemnych i ustnych do protokołu, oraz -- w razie wniosku -- rozprawę administracyjną (art. 33 ust. 1 i art. 36 ustawy OOŚ w zw. z art. 6 Konwencji z Aarhus)."
-      ]
-    },
-    {
       "code": "PR-2",
       "variants": [
         "Zobowiązanie inwestora do uzupełnienia KIP o pełną inwentaryzację zabudowy osiedla Oliva Koncept, włączenie budynków tego osiedla do modelu akustycznego i ponowne przeliczenie oddziaływania z uwzględnieniem rzeczywistej liczby mieszkańców (art. 7 i 77 par. 1 KPA w zw. z art. 66 ust. 1 pkt 5 ustawy OOŚ).",

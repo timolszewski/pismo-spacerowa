@@ -412,17 +412,9 @@ function personalizeItems(items, profile, rng) {
   // 6. PR-* TARGETED (previously unpersonalized!)
   // ================================================================
 
-  // PR-1 (konsultacje społeczne) ← always
-  if (items.find(it => it.code === 'PR-1')) {
-    append('PR-1', pick([
-      ' Jako bezpośrednio dotknięty mieszkaniec osiedla Oliva Koncept, żądam realnego udziału w procesie konsultacji — dotychczas nikt nas nie pytał o zdanie.',
-      ' Mieszkam bezpośrednio przy planowanej inwestycji i nie zostałem w żaden sposób poinformowany ani skonsultowany — to naruszenie mojego prawa do udziału w postępowaniu.'
-    ]));
-  }
-
   // PR-5 (identyfikacja interesariuszy) ← household
   if (profile.household && items.find(it => it.code === 'PR-5')) {
-    append('PR-5', ' Jako ' + hhRole[profile.household] + ' mieszkający w strefie oddziaływania, należę do grupy interesariuszy wymagającej szczególnej uwagi w procesie konsultacji.');
+    append('PR-5', ' Jako ' + hhRole[profile.household] + ' mieszkający w strefie oddziaływania, należę do grupy interesariuszy wymagającej szczególnej uwagi w postępowaniu środowiskowym.');
   }
 
   // PR-7 (analiza konfliktów społecznych) ← years
@@ -637,8 +629,8 @@ const GAIN_DETAILS = {
     body: '<p>Budowa potrwa <strong>18-24 miesiące</strong>. W tym czasie ul. Spacerowa \u2014 jedyna wygodna droga dojazdowa do osiedla \u2014 będzie częściowo lub całkowicie zamknięta. A już teraz osiedle jest słabo skomunikowane \u2014 najbliższy przystanek (Dom Zarazy) jest oddalony o ok. 800 m.</p><p>Pismo zawiera wnioski o:</p><p>\u2022 <strong>Dodatkowy przystanek autobusowy</strong> \u2014 na żądanie, przy Spacerowej 15, w kierunku Osowej (linie 171, 179 nie zatrzymują się przy Karwieńskiej)<br>\u2022 <strong>Plan organizacji ruchu</strong> \u2014 szczegółowy harmonogram z fazami budowy, mapą objazdów i planem komunikacji zastępczej<br>\u2022 <strong>Dojazd ratunkowy \u226415 min</strong> \u2014 gwarancja, że karetka i straż dotrą na czas<br>\u2022 <strong>Przystanek tymczasowy \u2264300 m</strong> \u2014 ciągłość komunikacji na czas budowy<br>\u2022 <strong>Bezpieczne trasy szkolne</strong> \u2014 wyznaczone i oznakowane dojścia do placówek oświatowych<br>\u2022 <strong>Plan dla osób starszych i niepełnosprawnych</strong> \u2014 alternatywne środki mobilności</p><p>Łącznie 7 wniosków formalnych dotyczących organizacji ruchu, dostępności i komunikacji publicznej.</p>'
   },
   voice: {
-    title: 'Głos mieszkańców',
-    body: '<p>KIP została sporządzona <strong>bez żadnych konsultacji z mieszkańcami</strong> osiedla Oliva Koncept. Nasze osiedle nie pojawia się w analizach, nie ma punktów pomiarowych przy naszych budynkach, nie ma nawet wzmianki o kilkuset rodzinach mieszkających bezpośrednio przy trasie.</p><p>Pismo zawiera wnioski o:</p><p>\u2022 <strong>Pełne konsultacje społeczne</strong> \u2014 spotkanie informacyjne, wyłożenie dokumentacji, możliwość składania uwag (art. 33 ustawy OOŚ, art. 6 Konwencji z Aarhus)<br>\u2022 <strong>Indywidualne zawiadomienia</strong> \u2014 właściciele w strefie 100 m od trasy powinni otrzymać osobne powiadomienie<br>\u2022 <strong>Rozprawę administracyjną</strong> \u2014 otwartą dla społeczeństwa, z udziałem inwestora<br>\u2022 <strong>Biuro informacyjne</strong> \u2014 stały punkt kontaktu z dokumentacją i danymi monitoringowymi<br>\u2022 <strong>Identyfikację grup interesariuszy</strong> \u2014 mieszkańcy, rodzice, osoby starsze, rowerzyści, odwiedzający zoo<br>\u2022 <strong>Udostępnienie dokumentacji elektronicznie</strong> \u2014 PDF z OCR, pliki .shp, dane źródłowe</p><p>To nie jest kwestia \u201Emiłego gestu\u201D \u2014 to <strong>obowiązek prawny</strong> wynikający z Konwencji z Aarhus, dyrektywy EIA i polskiej ustawy o udostępnianiu informacji o środowisku.</p>'
+    title: 'Prawa mieszkańców',
+    body: '<p>Osiedle Oliva Koncept <strong>nie pojawia się w analizach KIP</strong> — brak punktów pomiarowych przy naszych budynkach, brak wzmianki o kilkuset rodzinach mieszkających bezpośrednio przy trasie. Nasze prawa jako stron postępowania muszą zostać zagwarantowane.</p><p>Pismo zawiera wnioski o:</p><p>\u2022 <strong>Indywidualne zawiadomienia</strong> \u2014 właściciele w strefie 100 m od trasy powinni otrzymać osobne powiadomienie<br>\u2022 <strong>Rozprawę administracyjną</strong> \u2014 otwartą dla społeczeństwa, z udziałem inwestora<br>\u2022 <strong>Biuro informacyjne</strong> \u2014 stały punkt kontaktu z dokumentacją i danymi monitoringowymi<br>\u2022 <strong>Identyfikację grup interesariuszy</strong> \u2014 mieszkańcy, rodzice, osoby starsze, rowerzyści, odwiedzający zoo<br>\u2022 <strong>Udostępnienie dokumentacji elektronicznie</strong> \u2014 PDF z OCR, pliki .shp, dane źródłowe<br>\u2022 <strong>Analiza konfliktów społecznych</strong> \u2014 uzupełnienie KIP o realistyczną ocenę wpływu na społeczność</p><p>To <strong>obowiązek prawny</strong> wynikający z Konwencji z Aarhus, dyrektywy EIA i polskiej ustawy o udostępnianiu informacji o środowisku.</p>'
   }
 };
 
