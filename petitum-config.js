@@ -1,8 +1,8 @@
 // Petitum config with variant texts for 100 unique letters
 const PETITUM_CONFIG = {
-  "petitumStartPage": 96,
-  "closingStartPage": 106,
-  "totalPages": 107,
+  "petitumStartPage": 95,
+  "closingStartPage": 105,
+  "totalPages": 106,
   "items": [
     {
       "code": "AK-1",
